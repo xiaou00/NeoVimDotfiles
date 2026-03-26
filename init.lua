@@ -10,6 +10,8 @@ if not vim.uv.fs_stat(lazypath) then
 end
 
 vim.treesitter.language.register('python', 'sage')
+-- 将缩放系数强制设为 1.0 (等效于恒等态 Identity)
+vim.g.neovide_scale_factor = 1.0
 
 vim.opt.rtp:prepend(lazypath)
 local lazy_config = require "configs.lazy"
@@ -78,6 +80,14 @@ vim.g.vimtex_compiler_latexmk = {
     },
 }
 
+-- 设置顶部内边距为 20 像素
+vim.g.neovide_padding_top = 20
+-- 设置左侧内边距为 20 像素
+vim.g.neovide_padding_left = 20
+-- 右侧和底部通常为了对称也会设置
+vim.g.neovide_padding_right = 20
+vim.g.neovide_padding_bottom = 20
+
 vim.cmd[[
     inoreabbrev cr <cmd>CompetiTest run<CR>
 ]]
@@ -100,3 +110,56 @@ vim.cmd [[
     
 ]]
 
+-- 接下来是Markdown的设置
+
+require('render-markdown').setup({
+    anti_conceal = {
+        enabled = false,
+    },
+    latex = {
+        enabled = true,
+        render_modes = false,
+        converter = { 'utftex', 'latex2text' },
+        highlight = 'RenderMarkdownMath',
+        position = 'center',
+        top_pad = 0,
+        bottom_pad = 0,
+    },
+    code = {
+        enabled = true,
+        render_modes = false,
+        sign = true,
+        conceal_delimiters = true,
+        language = true,
+        position = 'left',
+        language_icon = true,
+        language_name = true,
+        language_info = true,
+        language_pad = 0,
+        disable = {},
+        disable_background = { 'diff' },
+        width = 'full',
+        left_margin = 0,
+        left_pad = 0,
+        right_pad = 0,
+        min_width = 0,
+        border = 'hide',
+        language_border = '█',
+        language_left = '',
+        language_right = '',
+        above = '▄',
+        below = '▀',
+        inline = true,
+        inline_left = '',
+        inline_right = '',
+        inline_pad = 0,
+        priority = 140,
+        highlight = 'RenderMarkdownCode',
+        highlight_info = 'RenderMarkdownCodeInfo',
+        highlight_language = nil,
+        highlight_border = 'RenderMarkdownCodeBorder',
+        highlight_fallback = 'RenderMarkdownCodeFallback',
+        highlight_inline = 'RenderMarkdownCodeInline',
+        style = 'full',
+    },
+})

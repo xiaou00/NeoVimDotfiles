@@ -46,8 +46,8 @@ M.base46 = {
                 vibrant_green = "#76c793",
                 blue = "#eeeeee",
                 nord_blue = "#ffffff",
-                yellow = "#ffaa22",
-                sun = "#ffaa22",
+                yellow = "#44bbbb",
+                sun = "#44bbff",
                 purple = "#555555",
                 dark_purple = "#ff2222",
                 teal = "#00ffff",
@@ -65,6 +65,49 @@ M.base46 = {
             fg = "#ff2222",
             bold = true -- 设为加粗
         },
+        ["@keyword.repeat"] = {
+            fg = "#ff2222",
+            bold = true -- 设为加粗
+        },
+        ["@keyword.conditional"] = {
+            fg = "#ff2222",
+            bold = true -- 设为加粗
+        },
+        ["@keyword.return"] = {
+            fg = "#ff2222",
+            bold = true -- 设为加粗
+        },
+        ["@keyword.function"] = {
+            fg = "#ff2222",
+            bold = true -- 设为加粗
+        },
+        ["@operator"] = {
+            fg = "#ff2222",
+            bold = false
+        },
+        ["@punctuation.bracket"] = {
+            fg = "#4f4f4f",
+        },
+        ["@punctuation.delimiter"] = {
+            fg = "#4f4f4f",
+        },
+        ["@constructor"] = {
+            fg = "#4f4f4f",
+        },
+        ["@function"] = {
+            fg = "#ffffff",
+            bold = true,
+        },
+        ["@function.call"] = {
+            fg = "#ffffff",
+            bold = true,
+        },
+        ["@property"] = {
+            fg = "#44bbbb",
+        },
+        ["@variable.parameter"] = {
+            fg = "#44bbbb",
+        },
         ["StorageClass"] = {
             fg = "#ff2222",
             bold = true -- 设为加粗
@@ -77,9 +120,13 @@ M.base46 = {
             fg = "#ff2222",
             bold = true
         },
+        ["@type.builtin"] = {
+            fg = "#44bbbb",
+            bold = true,
+        },
         ["Type"] = {
-            fg = "#22bbbb",
-            bold = true
+            fg = "#44bbbb",
+            bold = true,
         },
         ["String"] = {
             fg = "#ffffff",

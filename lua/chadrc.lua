@@ -134,6 +134,14 @@ M.base46 = {
         ["Variable"] = {
             italic = true
         },
+        RenderMarkdownH1Bg={
+            bg = "#441111",
+            fg = "#ff2222",
+            bold = true,
+        }, 
+        ["Visual"]={
+            bg = "#101010",
+        },
     },
     transparency = true,
 }

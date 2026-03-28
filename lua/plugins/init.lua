@@ -16,13 +16,21 @@ return {{
     end
 },
 {
+    'nvim-telescope/telescope.nvim', version = '*',
+    dependencies = {
+        'nvim-lua/plenary.nvim',
+        -- optional but recommended
+        { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    }
+},
+{
   "folke/which-key.nvim",
   enabled = false,
 },
 {
     "github/copilot.vim",
     cmd = "Copilot",
-    lazy = false, 
+    lazy = false,
 },
 {
     'MeanderingProgrammer/render-markdown.nvim',
@@ -33,7 +41,7 @@ return {{
     ---@module 'render-markdown'
     opts = {
         latex = {enabled = true},
-        code = {style = "block"}, 
+        code = {style = "block"},
     },
 },
 {

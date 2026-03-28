@@ -16,6 +16,19 @@ vim.g.neovide_scale_factor = 1.0
 vim.opt.rtp:prepend(lazypath)
 local lazy_config = require "configs.lazy"
 
+vim.opt.wrap = true -- 禁用软换行，让文本保持在单行逻辑轨道上
+local toggle_wrap = function()
+    vim.opt.wrap = not vim.opt.wrap:get()
+    if vim.opt.wrap:get() then
+        print("显示范畴：开启自动换行 (Wrap On)  (๑>ᴗ<๑)")
+    else
+        print("显示范畴：关闭自动换行 (Wrap Off) (｡•́︿•̀｡)")
+    end
+end
+
+-- 绑定快捷键 <leader>w
+-- 你可以根据习惯修改 'nw' 为你喜欢的组合
+vim.keymap.set('n', '<leader>w', toggle_wrap, { desc = 'Toggle Line Wrap' })
 -- 建立 后缀 -> 类型 的显式映射 (Morphism)
 vim.filetype.add({
     pattern = {
@@ -103,7 +116,7 @@ vim.cmd [[
     inoreabbrev be begin()<C-R>
     inoreabbrev en end()<C-R>
     inoreabbrev // /*  */<left><left><left><C-R>
-    inoreabbrev ## #include <bits/stdc++.h><enter>using namespace std;<enter><enter>#define ll long long<enter>#define ld long double<enter>#define pii pair<int,int><enter>#define fi(_x) _x.first<enter>#define se(_x) _x.second<enter>const int N=200009;<enter><enter>void input(){<enter><enter>}<enter><enter>void solve(){<enter><enter>}<enter><enter>int main(){<enter>ios::sync_with_stdio(false);<enter>cin.tie(0);<enter>input();<enter>solve();<enter>return 0;<enter>}<C-R>  
+    inoreabbrev #i #include <bits/stdc++.h><enter>using namespace std;<enter><enter>#define ll long long<enter>#define ld long double<enter>#define pii pair<int,int><enter>#define fi(_x) _x.first<enter>#define se(_x) _x.second<enter>const int N=200009;<enter><enter>void input(){<enter><enter>}<enter><enter>void solve(){<enter><enter>}<enter><enter>int main(){<enter>ios::sync_with_stdio(false);<enter>cin.tie(0);<enter>input();<enter>solve();<enter>return 0;<enter>}<C-R>  
 ]]
 
 vim.cmd [[ 
@@ -163,3 +176,11 @@ require('render-markdown').setup({
         style = 'full',
     },
 })
+
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+
+

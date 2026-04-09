@@ -18,6 +18,11 @@ vim.filetype.add({
     pattern   = { ['.*%.sage'] = 'sage' },
 })
 
+vim.g.neovide_padding_top = 20
+vim.g.neovide_padding_left = 0
+vim.g.neovide_padding_right = 0
+vim.g.neovide_padding_bottom = 20
+
 -- load plugins
 require("lazy").setup({
   {

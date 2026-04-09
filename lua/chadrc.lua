@@ -139,6 +139,9 @@ M.base46 = {
             fg = "#ff2222",
             bold = true,
         }, 
+        ["ColorColumn"]={
+            bg = "#101010",
+        },
         ["Visual"]={
             bg = "#101010",
         },

@@ -1,6 +1,7 @@
 {
   "LuaSnip": { "branch": "master", "commit": "642b0c595e11608b4c18219e93b88d7637af27bc" },
   "NvChad": { "branch": "v2.5", "commit": "f437558f23c8f50c36cd09748121ab2c822e8ec9" },
+  "alpha-nvim": { "branch": "main", "commit": "a9d8fb72213c8b461e791409e7feabb74eb6ce73" },
   "auto-save.nvim": { "branch": "main", "commit": "61892d67acd5b7c845f5da4d780b26fcd7f63e34" },
   "base46": { "branch": "v3.0", "commit": "884b990dcdbe07520a0892da6ba3e8d202b46337" },
   "cmp-async-path": { "branch": "main", "commit": "f8af3f726e07f2e9d37672eaa9102581aefce149" },
@@ -12,6 +13,8 @@
   "competitest.nvim": { "branch": "master", "commit": "b42c06ca308906f07912ba9aff015ac2c0831f85" },
   "conform.nvim": { "branch": "master", "commit": "086a40dc7ed8242c03be9f47fbcee68699cc2395" },
   "copilot.vim": { "branch": "release", "commit": "a12fd5672110c8aa7e3c8419e28c96943ca179be" },
+  "dressing.nvim": { "branch": "master", "commit": "2d7c2db2507fa3c4956142ee607431ddb2828639" },
+  "flutter-tools.nvim": { "branch": "main", "commit": "677cc07c16e8b89999108d2ebeefcfc5f539b73c" },
   "friendly-snippets": { "branch": "main", "commit": "6cd7280adead7f586db6fccbd15d2cac7e2188b9" },
   "gitsigns.nvim": { "branch": "main", "commit": "50c205548d8b037b7ff6378fca6d21146f0b6161" },
   "indent-blankline.nvim": { "branch": "master", "commit": "d28a3f70721c79e3c5f6693057ae929f3d9c0a03" },

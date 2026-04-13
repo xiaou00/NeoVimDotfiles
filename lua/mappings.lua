@@ -34,6 +34,9 @@ map("n", "<leader>ct", function()
     end
 end, { desc = "Toggle Copilot" })
 
+-- Toggle light/dark theme
+map('n', '<leader>tt', function() require("theme_toggle").toggle() end, { desc = "Toggle light/dark theme" })
+
 -- Toggle line wrap
 map('n', '<leader>w', function()
     vim.opt.wrap = not vim.opt.wrap:get()

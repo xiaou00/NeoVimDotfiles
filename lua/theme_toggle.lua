@@ -568,7 +568,7 @@ local dark = {
     -- ── Editor UI ────────────────────────────────────────────────────────────
     Normal            = hl(c_dark.fg,  c_dark.bg),
     NormalFloat       = hl(c_dark.fg,  c_dark.bg1),
-    NormalNC          = hl(c_dark.fg,  c_dark.bg1),
+    NormalNC          = hl(c_dark.fg,  c_dark.bg),
     SignColumn        = hl(nil,        c_dark.bg),
     LineNr            = hl(c_dark.fg3, c_dark.bg),
     CursorLineNr      = hl(c_dark.red, c_dark.bg1, {bold=true}),
@@ -1030,7 +1030,7 @@ local dark = {
 
     -- ── nvim-tree ────────────────────────────────────────────────────────────
     NvimTreeNormal                  = hl(c_dark.fg,  c_dark.bg1),
-    NvimTreeNormalNC                = hl(c_dark.fg,  c_dark.bg1),
+    NvimTreeNormalNC                = hl(c_dark.fg,  c_dark.bg),
     NvimTreeWinSeparator            = hl(c_dark.bg3, c_dark.bg1),
     NvimTreeRootFolder              = hl(c_dark.red, nil, {bold=true}),
     NvimTreeFolderIcon              = hl(c_dark.red, nil),

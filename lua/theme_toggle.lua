@@ -90,7 +90,7 @@ local light = {
     WildMenu          = hl(c.fg,  c.sel),
 
     -- ── Popup / completion ───────────────────────────────────────────────────
-    Pmenu             = hl(c.fg,  c.bg1),
+    Pmenu             = hl(c.fg,  "#e0e0e0"),
     PmenuSel          = hl("#ffffff", c.red),
     PmenuSbar         = hl(nil,   c.bg2),
     PmenuThumb        = hl(nil,   c.fg3),
@@ -599,7 +599,7 @@ local dark = {
     WildMenu          = hl(c_dark.fg,  c_dark.sel),
 
     -- ── Popup / completion ───────────────────────────────────────────────────
-    Pmenu             = hl(c_dark.fg,  c_dark.bg1),
+    Pmenu             = hl(c_dark.fg,  "#262626"),
     PmenuSel          = hl("#000000",  c_dark.red),
     PmenuSbar         = hl(nil,        c_dark.bg2),
     PmenuThumb        = hl(nil,        c_dark.fg3),

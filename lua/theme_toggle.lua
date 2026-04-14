@@ -5,7 +5,7 @@ local is_light = false
 -- ── color palette for light mode ────────────────────────────────────────────
 local c_light = {
     bg       = "#ffffff",   -- main background
-    bg1      = "#f5f5f5",   -- slightly off-white (panels, float)
+    bg1      = "#ffffff",   -- slightly off-white (panels, float)
     bg2      = "#eeeeee",   -- darker panel (statusline, tabline)
     bg3      = "#e4e4e4",   -- border / separator fill
     fg       = "#111111",   -- main text
@@ -547,7 +547,7 @@ local light = {
     RenderMarkdownH1              = hl(c.red,    nil, {bold=true}),
     RenderMarkdownH2              = hl(c.red,    nil, {bold=true}),
     RenderMarkdownH3              = hl(c.orange, nil, {bold=true}),
-    RenderMarkdownCode            = hl(c.fg2,    c.bg1),
+    RenderMarkdownCode            = hl(nil,      c.bg1),
     RenderMarkdownCodeBorder      = hl(c.bg3,    nil),
     RenderMarkdownCodeInline      = hl(c.fg2,    c.bg1),
     RenderMarkdownMath            = hl(c.teal,   nil),
@@ -1054,7 +1054,7 @@ local dark = {
     RenderMarkdownH1                = hl(c_dark.red,    nil, {bold=true}),
     RenderMarkdownH2                = hl(c_dark.red,    nil, {bold=true}),
     RenderMarkdownH3                = hl(c_dark.orange, nil, {bold=true}),
-    RenderMarkdownCode              = hl(c_dark.fg2,    c_dark.bg1),
+    RenderMarkdownCode              = hl(nil,           c_dark.bg1),
     RenderMarkdownCodeBorder        = hl(c_dark.bg3,    nil),
     RenderMarkdownCodeInline        = hl(c_dark.fg2,    c_dark.bg1),
     RenderMarkdownMath              = hl(c_dark.teal,   nil),

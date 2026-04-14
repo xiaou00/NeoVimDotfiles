@@ -43,6 +43,10 @@ map('n', '<leader>w', function()
     print(vim.opt.wrap:get() and "Wrap On" or "Wrap Off")
 end, { desc = 'Toggle Line Wrap' })
 
+-- Silicon (code screenshot)
+map("v", "<leader>si", function() require("nvim-silicon").clip() end, { desc = "Silicon: copy selection to clipboard" })
+map("n", "<leader>si", function() require("nvim-silicon").clip() end, { desc = "Silicon: copy whole file to clipboard" })
+
 -- Telescope
 map('n', '<leader>ff', function() require('telescope.builtin').find_files() end, { desc = 'Telescope find files' })
 map('n', '<leader>fg', function() require('telescope.builtin').live_grep() end, { desc = 'Telescope live grep' })
@@ -55,7 +59,13 @@ map("n", "<leader>ca", "<cmd>CompetiTest add_testcase<CR>", { desc = "CompetiTes
 map("n", "<leader>ce", "<cmd>CompetiTest edit_testcase<CR>", { desc = "CompetiTest Edit" })
 map("n", "<leader>cd", "<cmd>CompetiTest delete_testcase<CR>", { desc = "CompetiTest Delete" })
 map("n", "<leader>cp", "<cmd>CompetiTest receive<CR>", { desc = "CompetiTest Receive (Problem)" })
-map("n", "<leader>r", ":RunCode<CR>", { desc = "Run code" })
+map("n", "<leader>r", function()
+    if vim.bo.filetype == 'markdown' then
+        require('configs.markdown_runner').run_codeblock()
+    else
+        vim.cmd('RunCode')
+    end
+end, { desc = "Run code / Run markdown codeblock" })
 
 -- Abbreviations (C++ competitive programming)
 vim.cmd [[

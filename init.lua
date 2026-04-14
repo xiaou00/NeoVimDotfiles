@@ -43,6 +43,15 @@ require "autocmds"
 
 vim.schedule(function()
   require "mappings"
-  -- Initialize dark mode on startup
-  require("theme_toggle").init()
 end)
+
+-- Apply dark mode after lazy finishes loading all plugins and highlights
+vim.api.nvim_create_autocmd("User", {
+  pattern = "LazyDone",
+  once = true,
+  callback = function()
+    vim.schedule(function()
+      require("theme_toggle").init()
+    end)
+  end,
+})

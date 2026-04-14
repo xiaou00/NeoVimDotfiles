@@ -3,7 +3,7 @@ local M = {}
 local is_light = false
 
 -- ── color palette for light mode ────────────────────────────────────────────
-local c = {
+local c_light = {
     bg       = "#ffffff",   -- main background
     bg1      = "#f5f5f5",   -- slightly off-white (panels, float)
     bg2      = "#eeeeee",   -- darker panel (statusline, tabline)
@@ -21,6 +21,28 @@ local c = {
     sel      = "#cce4ff",   -- visual selection
     search   = "#ffdd00",   -- search highlight bg
 }
+
+-- ── color palette for dark mode ─────────────────────────────────────────────
+local c_dark = {
+    bg       = "#1a1a1a",   -- main background
+    bg1      = "#252525",   -- slightly lighter (panels, float)
+    bg2      = "#2d2d2d",   -- darker panel (statusline, tabline)
+    bg3      = "#3a3a3a",   -- border / separator fill
+    fg       = "#e8e8e8",   -- main text
+    fg2      = "#b8b8b8",   -- secondary text (strings, doc)
+    fg3      = "#808080",   -- muted (comments, line numbers)
+    red      = "#ff6666",   -- keywords, operators, errors
+    teal     = "#66c0c0",   -- types, properties
+    orange   = "#ff9966",   -- numbers, float literals
+    blue     = "#66b3ff",   -- info, tags, imports
+    green    = "#66cc66",   -- git add, ok
+    yellow   = "#ffcc66",   -- warnings, decorators, lifetimes
+    purple   = "#cc99ff",   -- special, attributes
+    sel      = "#1a4d7f",   -- visual selection
+    search   = "#664400",   -- search highlight bg
+}
+
+local c = c_light  -- default to light mode
 
 -- ── helper: make a hl entry ──────────────────────────────────────────────────
 local function hl(fg, bg, opts)
@@ -83,7 +105,7 @@ local light = {
     Question          = hl(c.blue,   nil),
 
     -- ── Classic syntax groups ─────────────────────────────────────────────────
-    Comment           = hl(c.fg3,   nil, {italic=true}),
+    Comment           = hl(c.fg3,   nil, {italic=false}),
     Constant          = hl(c.fg,    nil),
     String            = hl(c.fg2,   nil),
     Character         = hl(c.fg2,   nil),
@@ -112,7 +134,7 @@ local light = {
     SpecialChar       = hl(c.orange, nil),
     Tag               = hl(c.blue,  nil),
     Delimiter         = hl(c.fg3,   nil),
-    SpecialComment    = hl(c.fg3,   nil, {italic=true}),
+    SpecialComment    = hl(c.fg3,   nil, {italic=false}),
     Debug             = hl(c.red,   nil),
     Underlined        = hl(nil,     nil, {underline=true}),
     Error             = hl(c.red,   nil, {bold=true}),
@@ -120,8 +142,8 @@ local light = {
     Variable          = hl(c.fg,    nil, {italic=true}),
 
     -- ── Treesitter — generic ─────────────────────────────────────────────────
-    ["@comment"]                    = hl(c.fg3,    nil, {italic=true}),
-    ["@comment.documentation"]      = hl(c.fg3,    nil, {italic=true}),
+    ["@comment"]                    = hl(c.fg3,    nil, {italic=false}),
+    ["@comment.documentation"]      = hl(c.fg3,    nil, {italic=false}),
     ["@error"]                      = hl(c.red,    nil, {bold=true}),
 
     ["@keyword"]                    = hl(c.red,    nil, {bold=true}),
@@ -280,7 +302,7 @@ local light = {
     pythonOperator                  = hl(c.red,    nil),
     pythonString                    = hl(c.fg2,    nil),
     pythonNumber                    = hl(c.orange, nil),
-    pythonComment                   = hl(c.fg3,    nil, {italic=true}),
+    pythonComment                   = hl(c.fg3,    nil, {italic=false}),
 
     -- ── Rust specific ────────────────────────────────────────────────────────
     ["@keyword.rust"]               = hl(c.red,    nil, {bold=true}),
@@ -330,10 +352,10 @@ local light = {
     rustStringDelimiter             = hl(c.fg3,    nil),
     rustNumber                      = hl(c.orange, nil),
     rustFloat                       = hl(c.orange, nil),
-    rustComment                     = hl(c.fg3,    nil, {italic=true}),
-    rustCommentLine                 = hl(c.fg3,    nil, {italic=true}),
-    rustCommentBlock                = hl(c.fg3,    nil, {italic=true}),
-    rustDocComment                  = hl(c.fg3,    nil, {italic=true}),
+    rustComment                     = hl(c.fg3,    nil, {italic=false}),
+    rustCommentLine                 = hl(c.fg3,    nil, {italic=false}),
+    rustCommentBlock                = hl(c.fg3,    nil, {italic=false}),
+    rustDocComment                  = hl(c.fg3,    nil, {italic=false}),
 
     -- ── TeX / LaTeX specific ─────────────────────────────────────────────────
     ["@keyword.tex"]                = hl(c.red,    nil, {bold=true}),
@@ -371,7 +393,7 @@ local light = {
     texMathZoneXX                   = hl(c.teal,   nil),
     texMathZoneLI                   = hl(c.teal,   nil),
     texZone                         = hl(c.fg2,    nil),
-    texComment                      = hl(c.fg3,    nil, {italic=true}),
+    texComment                      = hl(c.fg3,    nil, {italic=false}),
     texString                       = hl(c.fg2,    nil),
     texArg                          = hl(c.fg,     nil),
     texOpt                          = hl(c.yellow, nil),
@@ -416,7 +438,7 @@ local light = {
     shVarAssign                     = hl(c.teal,   nil),
     shString                        = hl(c.fg2,    nil),
     shNumber                        = hl(c.orange, nil),
-    shComment                       = hl(c.fg3,    nil, {italic=true}),
+    shComment                       = hl(c.fg3,    nil, {italic=false}),
     bashStatement                   = hl(c.red,    nil, {bold=true}),
 
     -- ── LSP semantic tokens ───────────────────────────────────────────────────
@@ -540,6 +562,513 @@ local light = {
     RenderMarkdownTableFill       = hl(c.bg3,    nil),
 }
 
+-- ── all overrides for dark mode ──────────────────────────────────────────────
+local dark = {
+
+    -- ── Editor UI ────────────────────────────────────────────────────────────
+    Normal            = hl(c_dark.fg,  c_dark.bg),
+    NormalFloat       = hl(c_dark.fg,  c_dark.bg1),
+    NormalNC          = hl(c_dark.fg,  c_dark.bg1),
+    SignColumn        = hl(nil,        c_dark.bg),
+    LineNr            = hl(c_dark.fg3, c_dark.bg),
+    CursorLineNr      = hl(c_dark.red, c_dark.bg1, {bold=true}),
+    CursorLine        = hl(nil,        c_dark.bg1),
+    ColorColumn       = hl(nil,        c_dark.bg1),
+    Visual            = hl(nil,        c_dark.sel),
+    VisualNOS         = hl(nil,        c_dark.sel),
+    Search            = hl(c_dark.bg,  c_dark.search),
+    IncSearch         = hl("#1a1a1a",  "#ff8800"),
+    CurSearch         = hl(c_dark.bg,  "#ffcc00"),
+    MatchParen        = hl(nil,        c_dark.bg3, {bold=true}),
+    EndOfBuffer       = hl(c_dark.bg3, nil),
+    Folded            = hl(c_dark.fg3, c_dark.bg2),
+    FoldColumn        = hl(c_dark.bg3, c_dark.bg),
+    Conceal           = hl(c_dark.fg3, nil),
+    NonText           = hl(c_dark.bg3, nil),
+    SpecialKey        = hl(c_dark.fg3, nil),
+    Whitespace        = hl(c_dark.bg3, nil),
+    WinSeparator      = hl(c_dark.bg3, nil),
+    VertSplit         = hl(c_dark.bg3, nil),
+
+    -- ── Statusline / tabline ─────────────────────────────────────────────────
+    StatusLine        = hl(c_dark.fg2, c_dark.bg2),
+    StatusLineNC      = hl(c_dark.fg3, c_dark.bg2),
+    TabLine           = hl(c_dark.fg3, c_dark.bg2),
+    TabLineFill       = hl(nil,        c_dark.bg2),
+    TabLineSel        = hl(c_dark.fg,  c_dark.bg, {bold=true}),
+    WildMenu          = hl(c_dark.fg,  c_dark.sel),
+
+    -- ── Popup / completion ───────────────────────────────────────────────────
+    Pmenu             = hl(c_dark.fg,  c_dark.bg1),
+    PmenuSel          = hl("#1a1a1a",  c_dark.red),
+    PmenuSbar         = hl(nil,        c_dark.bg2),
+    PmenuThumb        = hl(nil,        c_dark.fg3),
+    FloatBorder       = hl(c_dark.bg3, c_dark.bg1),
+    FloatTitle        = hl(c_dark.fg2, c_dark.bg1, {bold=true}),
+
+    -- ── Messages ─────────────────────────────────────────────────────────────
+    ErrorMsg          = hl(c_dark.red,    nil, {bold=true}),
+    WarningMsg        = hl(c_dark.yellow, nil),
+    ModeMsg           = hl(c_dark.fg,     nil, {bold=true}),
+    MoreMsg           = hl(c_dark.green,  nil),
+    Question          = hl(c_dark.blue,   nil),
+
+    -- ── Classic syntax groups ─────────────────────────────────────────────────
+    Comment           = hl(c_dark.fg3,   nil, {italic=false}),
+    Constant          = hl(c_dark.fg,    nil),
+    String            = hl(c_dark.fg2,   nil),
+    Character         = hl(c_dark.fg2,   nil),
+    Number            = hl(c_dark.orange, nil),
+    Float             = hl(c_dark.orange, nil),
+    Boolean           = hl(c_dark.red,   nil, {bold=true}),
+    Identifier        = hl(c_dark.fg,    nil),
+    Function          = hl(c_dark.fg,    nil, {bold=true}),
+    Statement         = hl(c_dark.red,   nil, {bold=true}),
+    Conditional       = hl(c_dark.red,   nil, {bold=true}),
+    Repeat            = hl(c_dark.red,   nil, {bold=true}),
+    Label             = hl(c_dark.red,   nil, {bold=true}),
+    Operator          = hl(c_dark.red,   nil),
+    Keyword           = hl(c_dark.red,   nil, {bold=true}),
+    Exception         = hl(c_dark.red,   nil, {bold=true}),
+    PreProc           = hl(c_dark.red,   nil),
+    Include           = hl(c_dark.blue,  nil),
+    Define            = hl(c_dark.red,   nil),
+    Macro             = hl(c_dark.red,   nil, {bold=true}),
+    PreCondit         = hl(c_dark.red,   nil),
+    StorageClass      = hl(c_dark.red,   nil, {bold=true}),
+    Structure         = hl(c_dark.teal,  nil, {bold=true}),
+    Typedef           = hl(c_dark.teal,  nil, {bold=true}),
+    Type              = hl(c_dark.teal,  nil, {bold=true}),
+    Special           = hl(c_dark.purple, nil),
+    SpecialChar       = hl(c_dark.orange, nil),
+    Tag               = hl(c_dark.blue,  nil),
+    Delimiter         = hl(c_dark.fg3,   nil),
+    SpecialComment    = hl(c_dark.fg3,   nil, {italic=false}),
+    Debug             = hl(c_dark.red,   nil),
+    Underlined        = hl(nil,          nil, {underline=true}),
+    Error             = hl(c_dark.red,   nil, {bold=true}),
+    Todo              = hl(c_dark.blue,  c_dark.bg1, {bold=true}),
+    Variable          = hl(c_dark.fg,    nil, {italic=true}),
+
+    -- ── Treesitter — generic ─────────────────────────────────────────────────
+    ["@comment"]                    = hl(c_dark.fg3,    nil, {italic=false}),
+    ["@comment.documentation"]      = hl(c_dark.fg3,    nil, {italic=false}),
+    ["@error"]                      = hl(c_dark.red,    nil, {bold=true}),
+
+    ["@keyword"]                    = hl(c_dark.red,    nil, {bold=true}),
+    ["@keyword.function"]           = hl(c_dark.red,    nil, {bold=true}),
+    ["@keyword.operator"]           = hl(c_dark.red,    nil),
+    ["@keyword.return"]             = hl(c_dark.red,    nil, {bold=true}),
+    ["@keyword.conditional"]        = hl(c_dark.red,    nil, {bold=true}),
+    ["@keyword.conditional.ternary"]= hl(c_dark.red,    nil),
+    ["@keyword.repeat"]             = hl(c_dark.red,    nil, {bold=true}),
+    ["@keyword.exception"]          = hl(c_dark.red,    nil, {bold=true}),
+    ["@keyword.import"]             = hl(c_dark.blue,   nil),
+    ["@keyword.directive"]          = hl(c_dark.red,    nil),
+    ["@keyword.directive.define"]   = hl(c_dark.red,    nil),
+    ["@keyword.coroutine"]          = hl(c_dark.red,    nil, {bold=true}),
+    ["@keyword.debug"]              = hl(c_dark.red,    nil),
+
+    ["@operator"]                   = hl(c_dark.red,    nil),
+    ["@punctuation.bracket"]        = hl(c_dark.fg3,    nil),
+    ["@punctuation.delimiter"]      = hl(c_dark.fg3,    nil),
+    ["@punctuation.special"]        = hl(c_dark.orange, nil),
+
+    ["@variable"]                   = hl(c_dark.fg,     nil),
+    ["@variable.builtin"]           = hl(c_dark.red,    nil, {bold=true}),
+    ["@variable.parameter"]         = hl(c_dark.teal,   nil),
+    ["@variable.parameter.builtin"] = hl(c_dark.teal,   nil, {italic=true}),
+    ["@variable.member"]            = hl(c_dark.teal,   nil),
+
+    ["@constant"]                   = hl(c_dark.fg,     nil),
+    ["@constant.builtin"]           = hl(c_dark.red,    nil, {bold=true}),
+    ["@constant.macro"]             = hl(c_dark.red,    nil, {bold=true}),
+
+    ["@string"]                     = hl(c_dark.fg2,    nil),
+    ["@string.documentation"]       = hl(c_dark.fg2,    nil, {italic=true}),
+    ["@string.escape"]              = hl(c_dark.orange, nil),
+    ["@string.special"]             = hl(c_dark.orange, nil),
+    ["@string.special.url"]         = hl(c_dark.blue,   nil, {underline=true}),
+    ["@string.special.path"]        = hl(c_dark.blue,   nil),
+    ["@string.regexp"]              = hl(c_dark.orange, nil),
+
+    ["@character"]                  = hl(c_dark.fg2,    nil),
+    ["@character.special"]          = hl(c_dark.orange, nil),
+    ["@number"]                     = hl(c_dark.orange, nil),
+    ["@number.float"]               = hl(c_dark.orange, nil),
+    ["@boolean"]                    = hl(c_dark.red,    nil, {bold=true}),
+
+    ["@type"]                       = hl(c_dark.teal,   nil, {bold=true}),
+    ["@type.builtin"]               = hl(c_dark.teal,   nil, {bold=true}),
+    ["@type.qualifier"]             = hl(c_dark.red,    nil, {bold=true}),
+    ["@type.definition"]            = hl(c_dark.teal,   nil, {bold=true}),
+
+    ["@attribute"]                  = hl(c_dark.yellow, nil),
+    ["@attribute.builtin"]          = hl(c_dark.yellow, nil),
+
+    ["@function"]                   = hl(c_dark.fg,     nil, {bold=true}),
+    ["@function.call"]              = hl(c_dark.fg,     nil, {bold=true}),
+    ["@function.builtin"]           = hl(c_dark.red,    nil, {bold=true}),
+    ["@function.macro"]             = hl(c_dark.red,    nil, {bold=true}),
+    ["@function.method"]            = hl(c_dark.fg,     nil, {bold=true}),
+    ["@function.method.call"]       = hl(c_dark.fg,     nil, {bold=true}),
+
+    ["@constructor"]                = hl(c_dark.teal,   nil, {bold=true}),
+    ["@property"]                   = hl(c_dark.teal,   nil),
+    ["@field"]                      = hl(c_dark.teal,   nil),
+    ["@tag"]                        = hl(c_dark.blue,   nil, {bold=true}),
+    ["@tag.attribute"]              = hl(c_dark.teal,   nil),
+    ["@tag.delimiter"]              = hl(c_dark.fg3,    nil),
+
+    ["@module"]                     = hl(c_dark.fg,     nil),
+    ["@module.builtin"]             = hl(c_dark.red,    nil, {bold=true}),
+    ["@label"]                      = hl(c_dark.red,    nil),
+
+    ["@markup.heading"]             = hl(c_dark.fg,     nil, {bold=true}),
+    ["@markup.heading.1"]           = hl(c_dark.red,    nil, {bold=true}),
+    ["@markup.heading.2"]           = hl(c_dark.red,    nil, {bold=true}),
+    ["@markup.heading.3"]           = hl(c_dark.orange, nil, {bold=true}),
+    ["@markup.heading.4"]           = hl(c_dark.orange, nil, {bold=true}),
+    ["@markup.raw"]                 = hl(c_dark.fg2,    c_dark.bg1),
+    ["@markup.raw.block"]           = hl(c_dark.fg2,    c_dark.bg1),
+    ["@markup.link"]                = hl(c_dark.blue,   nil, {underline=true}),
+    ["@markup.link.label"]          = hl(c_dark.blue,   nil),
+    ["@markup.link.url"]            = hl(c_dark.blue,   nil, {underline=true}),
+    ["@markup.italic"]              = hl(nil,           nil, {italic=true}),
+    ["@markup.strong"]              = hl(nil,           nil, {bold=true}),
+    ["@markup.strikethrough"]       = hl(c_dark.fg3,    nil, {strikethrough=true}),
+    ["@markup.list"]                = hl(c_dark.red,    nil),
+    ["@markup.list.checked"]        = hl(c_dark.green,  nil),
+    ["@markup.list.unchecked"]      = hl(c_dark.fg3,    nil),
+    ["@markup.quote"]               = hl(c_dark.fg2,    nil, {italic=true}),
+    ["@markup.math"]                = hl(c_dark.teal,   nil),
+
+    ["@diff.plus"]                  = hl(c_dark.green,  nil),
+    ["@diff.minus"]                 = hl(c_dark.red,    nil),
+    ["@diff.delta"]                 = hl(c_dark.blue,   nil),
+
+    -- ── C / C++ specific ─────────────────────────────────────────────────────
+    ["@keyword.c"]                  = hl(c_dark.red,    nil, {bold=true}),
+    ["@type.c"]                     = hl(c_dark.teal,   nil, {bold=true}),
+    ["@type.builtin.c"]             = hl(c_dark.teal,   nil, {bold=true}),
+    ["@keyword.cpp"]                = hl(c_dark.red,    nil, {bold=true}),
+    ["@type.cpp"]                   = hl(c_dark.teal,   nil, {bold=true}),
+    ["@type.builtin.cpp"]           = hl(c_dark.teal,   nil, {bold=true}),
+    ["@keyword.directive.cpp"]      = hl(c_dark.red,    nil),
+    ["@keyword.directive.define.cpp"] = hl(c_dark.red,  nil, {bold=true}),
+    ["@string.cpp"]                 = hl(c_dark.fg2,    nil),
+    ["@number.cpp"]                 = hl(c_dark.orange, nil),
+    ["@operator.cpp"]               = hl(c_dark.red,    nil),
+    ["@variable.cpp"]               = hl(c_dark.fg,     nil),
+    ["@variable.member.cpp"]        = hl(c_dark.teal,   nil),
+    ["@function.cpp"]               = hl(c_dark.fg,     nil, {bold=true}),
+    ["@function.method.cpp"]        = hl(c_dark.fg,     nil, {bold=true}),
+    ["@constructor.cpp"]            = hl(c_dark.fg,     nil, {bold=true}),
+    ["@namespace.cpp"]              = hl(c_dark.fg,     nil),
+    cppSTLnamespace                 = hl(c_dark.fg,     nil),
+    cppSTLtype                      = hl(c_dark.teal,   nil, {bold=true}),
+    cppSTLexception                 = hl(c_dark.red,    nil, {bold=true}),
+    cppSTLfunction                  = hl(c_dark.fg,     nil, {bold=true}),
+    cppSTLios                       = hl(c_dark.teal,   nil),
+    cppSTLiterator                  = hl(c_dark.teal,   nil),
+    cppSTLiterator_tag              = hl(c_dark.teal,   nil),
+    cppSTLconstant                  = hl(c_dark.orange, nil),
+    cppSTLconcept                   = hl(c_dark.teal,   nil, {bold=true}),
+
+    -- ── Python specific ──────────────────────────────────────────────────────
+    ["@keyword.python"]             = hl(c_dark.red,    nil, {bold=true}),
+    ["@keyword.import.python"]      = hl(c_dark.blue,   nil),
+    ["@type.python"]                = hl(c_dark.teal,   nil, {bold=true}),
+    ["@type.builtin.python"]        = hl(c_dark.teal,   nil, {bold=true}),
+    ["@string.python"]              = hl(c_dark.fg2,    nil),
+    ["@string.documentation.python"]= hl(c_dark.fg3,    nil, {italic=true}),
+    ["@number.python"]              = hl(c_dark.orange, nil),
+    ["@boolean.python"]             = hl(c_dark.red,    nil, {bold=true}),
+    ["@operator.python"]            = hl(c_dark.red,    nil),
+    ["@function.python"]            = hl(c_dark.fg,     nil, {bold=true}),
+    ["@function.call.python"]       = hl(c_dark.fg,     nil, {bold=true}),
+    ["@function.builtin.python"]    = hl(c_dark.red,    nil, {bold=true}),
+    ["@function.method.python"]     = hl(c_dark.fg,     nil, {bold=true}),
+    ["@variable.python"]            = hl(c_dark.fg,     nil),
+    ["@variable.builtin.python"]    = hl(c_dark.red,    nil, {bold=true}),
+    ["@variable.parameter.python"]  = hl(c_dark.teal,   nil),
+    ["@attribute.python"]           = hl(c_dark.yellow, nil),
+    ["@constant.python"]            = hl(c_dark.fg,     nil),
+    ["@constant.builtin.python"]    = hl(c_dark.red,    nil, {bold=true}),
+    ["@constructor.python"]         = hl(c_dark.teal,   nil, {bold=true}),
+    ["@exception.python"]           = hl(c_dark.red,    nil, {bold=true}),
+    ["@punctuation.bracket.python"] = hl(c_dark.fg3,    nil),
+    pythonBuiltin                   = hl(c_dark.red,    nil, {bold=true}),
+    pythonExceptions                = hl(c_dark.red,    nil, {bold=true}),
+    pythonDecorator                 = hl(c_dark.yellow, nil),
+    pythonDecoratorName             = hl(c_dark.yellow, nil),
+    pythonDottedName                = hl(c_dark.fg,     nil),
+    pythonImport                    = hl(c_dark.blue,   nil),
+    pythonFunction                  = hl(c_dark.fg,     nil, {bold=true}),
+    pythonClass                     = hl(c_dark.teal,   nil, {bold=true}),
+    pythonOperator                  = hl(c_dark.red,    nil),
+    pythonString                    = hl(c_dark.fg2,    nil),
+    pythonNumber                    = hl(c_dark.orange, nil),
+    pythonComment                   = hl(c_dark.fg3,    nil, {italic=false}),
+
+    -- ── Rust specific ────────────────────────────────────────────────────────
+    ["@keyword.rust"]               = hl(c_dark.red,    nil, {bold=true}),
+    ["@keyword.function.rust"]      = hl(c_dark.red,    nil, {bold=true}),
+    ["@type.rust"]                  = hl(c_dark.teal,   nil, {bold=true}),
+    ["@type.builtin.rust"]          = hl(c_dark.teal,   nil, {bold=true}),
+    ["@string.rust"]                = hl(c_dark.fg2,    nil),
+    ["@number.rust"]                = hl(c_dark.orange, nil),
+    ["@operator.rust"]              = hl(c_dark.red,    nil),
+    ["@function.rust"]              = hl(c_dark.fg,     nil, {bold=true}),
+    ["@function.call.rust"]         = hl(c_dark.fg,     nil, {bold=true}),
+    ["@function.macro.rust"]        = hl(c_dark.red,    nil, {bold=true}),
+    ["@function.method.rust"]       = hl(c_dark.fg,     nil, {bold=true}),
+    ["@variable.rust"]              = hl(c_dark.fg,     nil),
+    ["@variable.builtin.rust"]      = hl(c_dark.red,    nil, {bold=true}),
+    ["@variable.parameter.rust"]    = hl(c_dark.teal,   nil),
+    ["@attribute.rust"]             = hl(c_dark.yellow, nil),
+    ["@constant.rust"]              = hl(c_dark.orange, nil, {bold=true}),
+    ["@constant.builtin.rust"]      = hl(c_dark.orange, nil, {bold=true}),
+    ["@constructor.rust"]           = hl(c_dark.teal,   nil, {bold=true}),
+    ["@punctuation.bracket.rust"]   = hl(c_dark.fg3,    nil),
+    ["@punctuation.special.rust"]   = hl(c_dark.orange, nil),
+    ["@label.rust"]                 = hl(c_dark.red,    nil),
+    rustLifetime                    = hl(c_dark.yellow, nil, {italic=true}),
+    rustSigil                       = hl(c_dark.red,    nil),
+    rustModPath                     = hl(c_dark.fg,     nil),
+    rustModPathSep                  = hl(c_dark.fg3,    nil),
+    rustDerive                      = hl(c_dark.yellow, nil),
+    rustDeriveTrait                 = hl(c_dark.teal,   nil, {italic=true}),
+    rustTrait                       = hl(c_dark.teal,   nil, {bold=true}),
+    rustEnum                        = hl(c_dark.teal,   nil, {bold=true}),
+    rustEnumVariant                 = hl(c_dark.teal,   nil),
+    rustStructure                   = hl(c_dark.teal,   nil, {bold=true}),
+    rustSelf                        = hl(c_dark.red,    nil, {bold=true}),
+    rustSuper                       = hl(c_dark.red,    nil, {bold=true}),
+    rustMacro                       = hl(c_dark.red,    nil, {bold=true}),
+    rustAttribute                   = hl(c_dark.yellow, nil),
+    rustStorage                     = hl(c_dark.red,    nil, {bold=true}),
+    rustKeyword                     = hl(c_dark.red,    nil, {bold=true}),
+    rustBoolean                     = hl(c_dark.red,    nil, {bold=true}),
+    rustArrowCharacter              = hl(c_dark.red,    nil),
+    rustOperator                    = hl(c_dark.red,    nil),
+    rustRepeat                      = hl(c_dark.red,    nil, {bold=true}),
+    rustConditional                 = hl(c_dark.red,    nil, {bold=true}),
+    rustString                      = hl(c_dark.fg2,    nil),
+    rustStringDelimiter             = hl(c_dark.fg3,    nil),
+    rustNumber                      = hl(c_dark.orange, nil),
+    rustFloat                       = hl(c_dark.orange, nil),
+    rustComment                     = hl(c_dark.fg3,    nil, {italic=false}),
+    rustCommentLine                 = hl(c_dark.fg3,    nil, {italic=false}),
+    rustCommentBlock                = hl(c_dark.fg3,    nil, {italic=false}),
+    rustDocComment                  = hl(c_dark.fg3,    nil, {italic=false}),
+
+    -- ── TeX / LaTeX specific ─────────────────────────────────────────────────
+    ["@keyword.tex"]                = hl(c_dark.red,    nil, {bold=true}),
+    ["@function.macro.tex"]         = hl(c_dark.red,    nil, {bold=true}),
+    ["@operator.tex"]               = hl(c_dark.red,    nil),
+    ["@string.tex"]                 = hl(c_dark.fg2,    nil),
+    ["@string.special.tex"]         = hl(c_dark.orange, nil),
+    ["@comment.tex"]                = hl(c_dark.fg3,    nil, {italic=true}),
+    ["@markup.math.tex"]            = hl(c_dark.teal,   nil),
+    ["@markup.heading.tex"]         = hl(c_dark.fg,     nil, {bold=true}),
+    ["@markup.strong.tex"]          = hl(nil,           nil, {bold=true}),
+    ["@markup.italic.tex"]          = hl(nil,           nil, {italic=true}),
+    ["@markup.link.url.tex"]        = hl(c_dark.blue,   nil, {underline=true}),
+    ["@punctuation.bracket.tex"]    = hl(c_dark.fg3,    nil),
+    ["@punctuation.special.tex"]    = hl(c_dark.orange, nil),
+    ["@variable.tex"]               = hl(c_dark.fg,     nil),
+    texCmd                          = hl(c_dark.red,    nil, {bold=true}),
+    texCmdPart                      = hl(c_dark.red,    nil, {bold=true}),
+    texCmdDef                       = hl(c_dark.red,    nil, {bold=true}),
+    texCmdEnv                       = hl(c_dark.red,    nil, {bold=true}),
+    texCmdGreek                     = hl(c_dark.teal,   nil),
+    texCmdMath                      = hl(c_dark.teal,   nil),
+    texCmdItem                      = hl(c_dark.red,    nil, {bold=true}),
+    texCmdRef                       = hl(c_dark.blue,   nil),
+    texCmdCite                      = hl(c_dark.blue,   nil),
+    texCmdTitle                     = hl(c_dark.red,    nil, {bold=true}),
+    texEnvName                      = hl(c_dark.teal,   nil, {bold=true}),
+    texMathEnvName                  = hl(c_dark.teal,   nil, {bold=true}),
+    texMathOper                     = hl(c_dark.red,    nil),
+    texMathDelim                    = hl(c_dark.fg3,    nil),
+    texMathZone                     = hl(c_dark.teal,   nil),
+    texMathZoneEnv                  = hl(c_dark.teal,   nil),
+    texMathZoneX                    = hl(c_dark.teal,   nil),
+    texMathZoneXX                   = hl(c_dark.teal,   nil),
+    texMathZoneLI                   = hl(c_dark.teal,   nil),
+    texZone                         = hl(c_dark.fg2,    nil),
+    texComment                      = hl(c_dark.fg3,    nil, {italic=false}),
+    texString                       = hl(c_dark.fg2,    nil),
+    texArg                          = hl(c_dark.fg,     nil),
+    texOpt                          = hl(c_dark.yellow, nil),
+    texOptSep                       = hl(c_dark.fg3,    nil),
+    texLength                       = hl(c_dark.orange, nil),
+    texSpecialChar                  = hl(c_dark.orange, nil),
+    texSymbol                       = hl(c_dark.red,    nil),
+
+    -- ── Bash / Shell specific ────────────────────────────────────────────────
+    ["@keyword.bash"]               = hl(c_dark.red,    nil, {bold=true}),
+    ["@keyword.conditional.bash"]   = hl(c_dark.red,    nil, {bold=true}),
+    ["@keyword.repeat.bash"]        = hl(c_dark.red,    nil, {bold=true}),
+    ["@function.bash"]              = hl(c_dark.fg,     nil, {bold=true}),
+    ["@function.call.bash"]         = hl(c_dark.fg,     nil, {bold=true}),
+    ["@variable.bash"]              = hl(c_dark.fg,     nil),
+    ["@variable.builtin.bash"]      = hl(c_dark.red,    nil, {bold=true}),
+    ["@variable.parameter.bash"]    = hl(c_dark.teal,   nil),
+    ["@string.bash"]                = hl(c_dark.fg2,    nil),
+    ["@string.special.bash"]        = hl(c_dark.orange, nil),
+    ["@number.bash"]                = hl(c_dark.orange, nil),
+    ["@operator.bash"]              = hl(c_dark.red,    nil),
+    ["@punctuation.bracket.bash"]   = hl(c_dark.fg3,    nil),
+    ["@punctuation.special.bash"]   = hl(c_dark.orange, nil),
+    ["@comment.bash"]               = hl(c_dark.fg3,    nil, {italic=true}),
+    shCmd                           = hl(c_dark.fg,     nil, {bold=true}),
+    shFunctionKey                   = hl(c_dark.red,    nil, {bold=true}),
+    shFunction                      = hl(c_dark.fg,     nil, {bold=true}),
+    shStatement                     = hl(c_dark.red,    nil, {bold=true}),
+    shConditional                   = hl(c_dark.red,    nil, {bold=true}),
+    shLoop                          = hl(c_dark.red,    nil, {bold=true}),
+    shRepeat                        = hl(c_dark.red,    nil, {bold=true}),
+    shExpr                          = hl(c_dark.red,    nil),
+    shOption                        = hl(c_dark.fg,     nil),
+    shParen                         = hl(c_dark.fg3,    nil),
+    shCmdSubRegion                  = hl(c_dark.orange, nil),
+    shCommandSub                    = hl(c_dark.orange, nil),
+    shQuote                         = hl(c_dark.fg3,    nil),
+    shDeref                         = hl(c_dark.red,    nil),
+    shSpecial                       = hl(c_dark.orange, nil),
+    shVariable                      = hl(c_dark.fg,     nil),
+    shVarAssign                     = hl(c_dark.teal,   nil),
+    shString                        = hl(c_dark.fg2,    nil),
+    shNumber                        = hl(c_dark.orange, nil),
+    shComment                       = hl(c_dark.fg3,    nil, {italic=false}),
+    bashStatement                   = hl(c_dark.red,    nil, {bold=true}),
+
+    -- ── LSP semantic tokens ───────────────────────────────────────────────────
+    ["@lsp.type.keyword"]           = hl(c_dark.red,    nil, {bold=true}),
+    ["@lsp.type.function"]          = hl(c_dark.fg,     nil, {bold=true}),
+    ["@lsp.type.method"]            = hl(c_dark.fg,     nil, {bold=true}),
+    ["@lsp.type.macro"]             = hl(c_dark.red,    nil, {bold=true}),
+    ["@lsp.type.type"]              = hl(c_dark.teal,   nil, {bold=true}),
+    ["@lsp.type.class"]             = hl(c_dark.teal,   nil, {bold=true}),
+    ["@lsp.type.struct"]            = hl(c_dark.teal,   nil, {bold=true}),
+    ["@lsp.type.enum"]              = hl(c_dark.teal,   nil, {bold=true}),
+    ["@lsp.type.enumMember"]        = hl(c_dark.teal,   nil),
+    ["@lsp.type.interface"]         = hl(c_dark.teal,   nil, {bold=true}),
+    ["@lsp.type.typeParameter"]     = hl(c_dark.teal,   nil, {italic=true}),
+    ["@lsp.type.namespace"]         = hl(c_dark.fg,     nil),
+    ["@lsp.type.variable"]          = hl(c_dark.fg,     nil),
+    ["@lsp.type.parameter"]         = hl(c_dark.teal,   nil),
+    ["@lsp.type.property"]          = hl(c_dark.teal,   nil),
+    ["@lsp.type.decorator"]         = hl(c_dark.yellow, nil),
+    ["@lsp.type.selfParameter"]     = hl(c_dark.red,    nil, {bold=true}),
+    ["@lsp.type.builtinType"]       = hl(c_dark.teal,   nil, {bold=true}),
+    ["@lsp.type.operator"]          = hl(c_dark.red,    nil),
+    ["@lsp.type.lifetime"]          = hl(c_dark.yellow, nil, {italic=true}),
+    ["@lsp.mod.readonly"]           = hl(nil,           nil, {bold=true}),
+    ["@lsp.mod.static"]             = hl(nil,           nil, {bold=true}),
+    ["@lsp.mod.deprecated"]         = hl(c_dark.fg3,    nil, {strikethrough=true}),
+    ["@lsp.typemod.function.defaultLibrary"] = hl(c_dark.red, nil, {bold=true}),
+    ["@lsp.typemod.variable.defaultLibrary"] = hl(c_dark.red, nil, {bold=true}),
+
+    -- ── Codeium ───────────────────────────────────────────────────────────────
+    CodeiumSuggestion               = hl(c_dark.fg3,    nil, {italic=true}),
+
+    -- ── LSP references ────────────────────────────────────────────────────────
+    LspReferenceText                = hl(nil, c_dark.bg2),
+    LspReferenceRead                = hl(nil, c_dark.bg2),
+    LspReferenceWrite               = hl(nil, "#664433"),
+    DiagnosticError                 = hl(c_dark.red,    nil),
+    DiagnosticWarn                  = hl(c_dark.yellow, nil),
+    DiagnosticInfo                  = hl(c_dark.blue,   nil),
+    DiagnosticHint                  = hl(c_dark.teal,   nil),
+    DiagnosticUnderlineError        = hl(nil, nil, {sp=c_dark.red,    underline=true}),
+    DiagnosticUnderlineWarn         = hl(nil, nil, {sp=c_dark.yellow, underline=true}),
+    DiagnosticUnderlineInfo         = hl(nil, nil, {sp=c_dark.blue,   underline=true}),
+    DiagnosticUnderlineHint         = hl(nil, nil, {sp=c_dark.teal,   underline=true}),
+    DiagnosticVirtualTextError      = hl(c_dark.red,    c_dark.bg1),
+    DiagnosticVirtualTextWarn       = hl(c_dark.yellow, c_dark.bg1),
+    DiagnosticVirtualTextInfo       = hl(c_dark.blue,   c_dark.bg1),
+    DiagnosticVirtualTextHint       = hl(c_dark.teal,   c_dark.bg1),
+
+    -- ── Git ──────────────────────────────────────────────────────────────────
+    GitSignsAdd                     = hl(c_dark.green,  nil),
+    GitSignsChange                  = hl(c_dark.blue,   nil),
+    GitSignsDelete                  = hl(c_dark.red,    nil),
+    DiffAdd                         = hl(nil,           "#334433"),
+    DiffChange                      = hl(nil,           "#333344"),
+    DiffDelete                      = hl(nil,           "#443333"),
+    DiffText                        = hl(nil,           "#1a4d7f"),
+
+    -- ── NvChad tabufline ─────────────────────────────────────────────────────
+    TbLineBufOn                     = hl(c_dark.fg,  c_dark.bg,  {bold=true}),
+    TbLineBufOff                    = hl(c_dark.fg3, c_dark.bg2),
+    TbLineTabOn                     = hl(c_dark.fg,  c_dark.bg,  {bold=true}),
+    TbLineTabOff                    = hl(c_dark.fg3, c_dark.bg2),
+    TbLineBufOnModified             = hl(c_dark.red, c_dark.bg),
+    TbLineBufOffModified            = hl(c_dark.red, c_dark.bg2),
+    TbLineCloseBtn                  = hl(c_dark.fg3, c_dark.bg),
+    TbLineBufOnClose                = hl(c_dark.fg3, c_dark.bg),
+    TbLineBufOffClose               = hl(c_dark.fg3, c_dark.bg2),
+    TbLineTheme                     = hl(c_dark.fg3, c_dark.bg2),
+    TbLineBackground                = hl(nil,        c_dark.bg2),
+
+    -- ── Telescope ────────────────────────────────────────────────────────────
+    TelescopeNormal                 = hl(c_dark.fg,  c_dark.bg),
+    TelescopeBorder                 = hl(c_dark.bg3, c_dark.bg),
+    TelescopePromptBorder           = hl(c_dark.bg3, c_dark.bg1),
+    TelescopePromptNormal           = hl(c_dark.fg,  c_dark.bg1),
+    TelescopePromptPrefix           = hl(c_dark.red, c_dark.bg1),
+    TelescopeResultsBorder          = hl(c_dark.bg3, c_dark.bg),
+    TelescopeResultsNormal          = hl(c_dark.fg,  c_dark.bg),
+    TelescopePreviewBorder          = hl(c_dark.bg3, c_dark.bg),
+    TelescopePreviewNormal          = hl(c_dark.fg,  c_dark.bg),
+    TelescopeSelectionCaret         = hl(c_dark.red, c_dark.sel),
+    TelescopeSelection              = hl(c_dark.fg,  c_dark.sel),
+    TelescopeMatching               = hl(c_dark.red, nil, {bold=true}),
+
+    -- ── nvim-tree ────────────────────────────────────────────────────────────
+    NvimTreeNormal                  = hl(c_dark.fg,  c_dark.bg1),
+    NvimTreeNormalNC                = hl(c_dark.fg,  c_dark.bg1),
+    NvimTreeWinSeparator            = hl(c_dark.bg3, c_dark.bg1),
+    NvimTreeRootFolder              = hl(c_dark.red, nil, {bold=true}),
+    NvimTreeFolderIcon              = hl(c_dark.red, nil),
+    NvimTreeFolderName              = hl(c_dark.fg,  nil),
+    NvimTreeOpenedFolderName        = hl(c_dark.fg,  nil, {bold=true}),
+    NvimTreeFileName                = hl(c_dark.fg,  nil),
+    NvimTreeOpenedFile              = hl(c_dark.red, nil),
+    NvimTreeGitNew                  = hl(c_dark.green,  nil),
+    NvimTreeGitDirty                = hl(c_dark.yellow, nil),
+    NvimTreeGitDeleted              = hl(c_dark.red,    nil),
+    NvimTreeGitStaged               = hl(c_dark.green,  nil),
+    NvimTreeIndentMarker            = hl(c_dark.bg3, nil),
+
+    -- ── render-markdown ──────────────────────────────────────────────────────
+    RenderMarkdownH1Bg              = hl(c_dark.red,    "#553333", {bold=true}),
+    RenderMarkdownH2Bg              = hl(c_dark.red,    "#553322", {bold=true}),
+    RenderMarkdownH3Bg              = hl(c_dark.orange, "#553322", {bold=true}),
+    RenderMarkdownH4Bg              = hl(c_dark.orange, "#553322"),
+    RenderMarkdownH5Bg              = hl(c_dark.fg2,    c_dark.bg1),
+    RenderMarkdownH6Bg              = hl(c_dark.fg3,    c_dark.bg1),
+    RenderMarkdownH1                = hl(c_dark.red,    nil, {bold=true}),
+    RenderMarkdownH2                = hl(c_dark.red,    nil, {bold=true}),
+    RenderMarkdownH3                = hl(c_dark.orange, nil, {bold=true}),
+    RenderMarkdownCode              = hl(c_dark.fg2,    c_dark.bg1),
+    RenderMarkdownCodeBorder        = hl(c_dark.bg3,    nil),
+    RenderMarkdownCodeInline        = hl(c_dark.fg2,    c_dark.bg1),
+    RenderMarkdownMath              = hl(c_dark.teal,   nil),
+    RenderMarkdownBullet            = hl(c_dark.red,    nil),
+    RenderMarkdownDash              = hl(c_dark.bg3,    nil),
+    RenderMarkdownLink              = hl(c_dark.blue,   nil, {underline=true}),
+    RenderMarkdownChecked           = hl(c_dark.green,  nil),
+    RenderMarkdownUnchecked         = hl(c_dark.fg3,    nil),
+    RenderMarkdownQuote             = hl(c_dark.fg2,    nil, {italic=true}),
+    RenderMarkdownTableHead         = hl(c_dark.teal,   nil, {bold=true}),
+    RenderMarkdownTableRow          = hl(c_dark.fg,     nil),
+    RenderMarkdownTableFill         = hl(c_dark.bg3,    nil),
+}
+
 -- Only these fields are safe to round-trip through nvim_get_hl → nvim_set_hl.
 -- Other fields (e.g. "id", "default") can cause unexpected behavior.
 local hl_fields = {
@@ -565,20 +1094,13 @@ local dark_snapshot = {}
 
 function M.toggle()
     if is_light then
-        for group, saved in pairs(dark_snapshot) do
-            if next(saved) == nil then
-                -- Was undefined in dark mode: truly undefine it so that
-                -- treesitter fallback chains (@keyword.cpp → @keyword) work again.
-                -- nvim_set_hl(0, group, {}) would make it "explicitly empty",
-                -- breaking the fallback. "hi clear" actually removes the definition.
-                pcall(vim.cmd, "hi clear " .. group)
-            else
-                vim.api.nvim_set_hl(0, group, saved)
-            end
-        end
-        -- NvChad rebuilds its compiled groups on top (treesitter, syntax, ui …)
-        require("base46").load_all_highlights()
         dark_snapshot = {}
+        for group in pairs(dark) do
+            dark_snapshot[group] = snapshot_hl(group)
+        end
+        for group, opts in pairs(dark) do
+            vim.api.nvim_set_hl(0, group, opts)
+        end
         is_light = false
         vim.notify("Dark mode", vim.log.levels.INFO)
     else

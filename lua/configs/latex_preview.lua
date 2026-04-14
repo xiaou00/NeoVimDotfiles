@@ -157,45 +157,20 @@ end
 
 -- ── Rendering ─────────────────────────────────────────────────────────────────
 
--- Count net brace depth of a string (handles \{ \} escapes).
-local function brace_depth(str)
-  local depth, i = 0, 1
-  while i <= #str do
-    local c = str:sub(i, i)
-    if     c == '\\' then i = i + 2       -- skip \X
-    elseif c == '{'  then depth = depth + 1; i = i + 1
-    elseif c == '}'  then depth = depth - 1; i = i + 1
-    else                   i = i + 1 end
-  end
-  return depth
-end
-
--- Join source lines that have unclosed braces with the next line,
--- so utftex never receives a half-open \frac{...}{ at end of a line.
-local function join_broken_lines(str)
-  local lines = vim.split(str, '\n')
-  local result, acc = {}, ''
-  for _, line in ipairs(lines) do
-    acc = (acc == '') and line or (acc .. ' ' .. line)
-    if brace_depth(acc) <= 0 then
-      result[#result + 1] = acc
-      acc = ''
-    end
-  end
-  if acc ~= '' then result[#result + 1] = acc end
-  return table.concat(result, '\n')
-end
-
 -- utftex first, latex2text fallback for both modes
 local function render(math_str, macros, mode)
   if vim.trim(math_str) == '' then return '' end
-  local expanded = join_broken_lines(expand_macros(math_str, macros))
+  -- Collapse all whitespace (including newlines) to single spaces so utftex
+  -- never sees a bare newline inside \begin{pmatrix}...\end{pmatrix}, which
+  -- caused the first matrix row to appear shifted ("向前倾").
+  local expanded = vim.trim(expand_macros(math_str, macros):gsub('%s+', ' '))
   local input = (mode == 'inline') and ('$' .. expanded .. '$') or expanded
   local out = vim.fn.system({ 'utftex' }, input)
   if vim.v.shell_error ~= 0 or vim.trim(out) == '' then
     out = vim.fn.system({ 'latex2text' }, input)
   end
-  return vim.trim(out)
+  local cleaned_out = out:gsub("^[\r\n]+", ""):gsub("[\r\n]+$", "")
+  return cleaned_out
 end
 
 -- ── Math detection at cursor ──────────────────────────────────────────────────

@@ -2,6 +2,12 @@ require "nvchad.options"
 
 local opt = vim.opt
 
+-- neovide: solid background matching terminal (#1e1e1e from obsidian-ember)
+if vim.g.neovide then
+    vim.g.neovide_opacity = 1.0
+    vim.g.neovide_normal_opacity = 1.0
+end
+
 opt.shiftwidth = 4
 opt.tabstop = 4
 opt.softtabstop = 4

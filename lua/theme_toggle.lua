@@ -24,10 +24,10 @@ local c_light = {
 
 -- ── color palette for dark mode ─────────────────────────────────────────────
 local c_dark = {
-    bg       = "#000000",   -- main background (pure black)
-    bg1      = "#1a1a1a",   -- slightly lighter (panels, float)
-    bg2      = "#262626",   -- darker panel (statusline, tabline)
-    bg3      = "#3a3a3a",   -- border / separator fill
+    bg       = "#101018",   -- main background
+    bg1      = "#101018",   -- slightly lighter (panels, float)
+    bg2      = "#202028",   -- darker panel (statusline, tabline)
+    bg3      = "#303038",   -- border / separator fill
     fg       = "#ffffff",   -- main text (pure white)
     fg2      = "#d0d0d0",   -- secondary text (strings, doc)
     fg3      = "#808080",   -- muted (comments, line numbers)
@@ -1068,6 +1068,8 @@ local dark = {
     RenderMarkdownTableRow          = hl(c_dark.fg,     nil),
     RenderMarkdownTableFill         = hl(c_dark.bg3,    nil),
 }
+
+M.dark_highlights = dark
 
 -- Only these fields are safe to round-trip through nvim_get_hl → nvim_set_hl.
 -- Other fields (e.g. "id", "default") can cause unexpected behavior.

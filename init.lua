@@ -55,12 +55,14 @@ vim.api.nvim_create_autocmd("User", {
       local orig = base46.load_all_highlights
       base46.load_all_highlights = function(...)
         orig(...)
-        require("theme_toggle").init()
+        vim.schedule(function()
+          require("theme_toggle").init()
+        end)
       end
     end
-    -- Also apply immediately on first load
-    vim.defer_fn(function()
+    -- Also apply immediately on first load, after all pending events settle
+    vim.schedule(function()
       require("theme_toggle").init()
-    end, 0)
+    end)
   end,
 })

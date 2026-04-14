@@ -45,13 +45,22 @@ vim.schedule(function()
   require "mappings"
 end)
 
--- Apply dark mode after lazy finishes loading all plugins and highlights
+-- Hook base46.load_all_highlights so our theme always wins after NvChad reloads
 vim.api.nvim_create_autocmd("User", {
   pattern = "LazyDone",
   once = true,
   callback = function()
-    vim.schedule(function()
+    local ok, base46 = pcall(require, "base46")
+    if ok then
+      local orig = base46.load_all_highlights
+      base46.load_all_highlights = function(...)
+        orig(...)
+        require("theme_toggle").init()
+      end
+    end
+    -- Also apply immediately on first load
+    vim.defer_fn(function()
       require("theme_toggle").init()
-    end)
+    end, 0)
   end,
 })

@@ -43,4 +43,6 @@ require "autocmds"
 
 vim.schedule(function()
   require "mappings"
+  -- Initialize dark mode on startup
+  require("theme_toggle").init()
 end)

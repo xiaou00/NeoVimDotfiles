@@ -24,22 +24,22 @@ local c_light = {
 
 -- ── color palette for dark mode ─────────────────────────────────────────────
 local c_dark = {
-    bg       = "#1a1a1a",   -- main background
-    bg1      = "#252525",   -- slightly lighter (panels, float)
-    bg2      = "#2d2d2d",   -- darker panel (statusline, tabline)
+    bg       = "#000000",   -- main background (pure black)
+    bg1      = "#1a1a1a",   -- slightly lighter (panels, float)
+    bg2      = "#262626",   -- darker panel (statusline, tabline)
     bg3      = "#3a3a3a",   -- border / separator fill
-    fg       = "#e8e8e8",   -- main text
-    fg2      = "#b8b8b8",   -- secondary text (strings, doc)
+    fg       = "#ffffff",   -- main text (pure white)
+    fg2      = "#d0d0d0",   -- secondary text (strings, doc)
     fg3      = "#808080",   -- muted (comments, line numbers)
-    red      = "#ff6666",   -- keywords, operators, errors
-    teal     = "#66c0c0",   -- types, properties
-    orange   = "#ff9966",   -- numbers, float literals
-    blue     = "#66b3ff",   -- info, tags, imports
-    green    = "#66cc66",   -- git add, ok
-    yellow   = "#ffcc66",   -- warnings, decorators, lifetimes
-    purple   = "#cc99ff",   -- special, attributes
-    sel      = "#1a4d7f",   -- visual selection
-    search   = "#664400",   -- search highlight bg
+    red      = "#ff4444",   -- keywords, operators, errors
+    teal     = "#44dddd",   -- types, properties
+    orange   = "#ff7722",   -- numbers, float literals
+    blue     = "#5599ff",   -- info, tags, imports
+    green    = "#44dd44",   -- git add, ok
+    yellow   = "#ffdd44",   -- warnings, decorators, lifetimes
+    purple   = "#dd88ff",   -- special, attributes
+    sel      = "#1a5fa0",   -- visual selection
+    search   = "#884422",   -- search highlight bg
 }
 
 local c = c_light  -- default to light mode
@@ -577,7 +577,7 @@ local dark = {
     Visual            = hl(nil,        c_dark.sel),
     VisualNOS         = hl(nil,        c_dark.sel),
     Search            = hl(c_dark.bg,  c_dark.search),
-    IncSearch         = hl("#1a1a1a",  "#ff8800"),
+    IncSearch         = hl("#000000",  "#ff8800"),
     CurSearch         = hl(c_dark.bg,  "#ffcc00"),
     MatchParen        = hl(nil,        c_dark.bg3, {bold=true}),
     EndOfBuffer       = hl(c_dark.bg3, nil),
@@ -600,7 +600,7 @@ local dark = {
 
     -- ── Popup / completion ───────────────────────────────────────────────────
     Pmenu             = hl(c_dark.fg,  c_dark.bg1),
-    PmenuSel          = hl("#1a1a1a",  c_dark.red),
+    PmenuSel          = hl("#000000",  c_dark.red),
     PmenuSbar         = hl(nil,        c_dark.bg2),
     PmenuThumb        = hl(nil,        c_dark.fg3),
     FloatBorder       = hl(c_dark.bg3, c_dark.bg1),
@@ -978,7 +978,7 @@ local dark = {
     -- ── LSP references ────────────────────────────────────────────────────────
     LspReferenceText                = hl(nil, c_dark.bg2),
     LspReferenceRead                = hl(nil, c_dark.bg2),
-    LspReferenceWrite               = hl(nil, "#664433"),
+    LspReferenceWrite               = hl(nil, "#3a2a1a"),
     DiagnosticError                 = hl(c_dark.red,    nil),
     DiagnosticWarn                  = hl(c_dark.yellow, nil),
     DiagnosticInfo                  = hl(c_dark.blue,   nil),
@@ -996,9 +996,9 @@ local dark = {
     GitSignsAdd                     = hl(c_dark.green,  nil),
     GitSignsChange                  = hl(c_dark.blue,   nil),
     GitSignsDelete                  = hl(c_dark.red,    nil),
-    DiffAdd                         = hl(nil,           "#334433"),
-    DiffChange                      = hl(nil,           "#333344"),
-    DiffDelete                      = hl(nil,           "#443333"),
+    DiffAdd                         = hl(nil,           "#1a3a1a"),
+    DiffChange                      = hl(nil,           "#1a1a3a"),
+    DiffDelete                      = hl(nil,           "#3a1a1a"),
     DiffText                        = hl(nil,           "#1a4d7f"),
 
     -- ── NvChad tabufline ─────────────────────────────────────────────────────
@@ -1045,10 +1045,10 @@ local dark = {
     NvimTreeIndentMarker            = hl(c_dark.bg3, nil),
 
     -- ── render-markdown ──────────────────────────────────────────────────────
-    RenderMarkdownH1Bg              = hl(c_dark.red,    "#553333", {bold=true}),
-    RenderMarkdownH2Bg              = hl(c_dark.red,    "#553322", {bold=true}),
-    RenderMarkdownH3Bg              = hl(c_dark.orange, "#553322", {bold=true}),
-    RenderMarkdownH4Bg              = hl(c_dark.orange, "#553322"),
+    RenderMarkdownH1Bg              = hl(c_dark.red,    "#2a1a1a", {bold=true}),
+    RenderMarkdownH2Bg              = hl(c_dark.red,    "#2a1a1a", {bold=true}),
+    RenderMarkdownH3Bg              = hl(c_dark.orange, "#2a2a1a", {bold=true}),
+    RenderMarkdownH4Bg              = hl(c_dark.orange, "#2a2a1a"),
     RenderMarkdownH5Bg              = hl(c_dark.fg2,    c_dark.bg1),
     RenderMarkdownH6Bg              = hl(c_dark.fg3,    c_dark.bg1),
     RenderMarkdownH1                = hl(c_dark.red,    nil, {bold=true}),
@@ -1118,6 +1118,15 @@ end
 
 function M.is_light()
     return is_light
+end
+
+-- Initialize with dark mode on startup
+function M.init()
+    if not is_light then
+        for group, opts in pairs(dark) do
+            vim.api.nvim_set_hl(0, group, opts)
+        end
+    end
 end
 
 return M

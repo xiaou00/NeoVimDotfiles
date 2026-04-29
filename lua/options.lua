@@ -6,6 +6,7 @@ local opt = vim.opt
 if vim.g.neovide then
     vim.g.neovide_opacity = 1.0
     vim.g.neovide_normal_opacity = 1.0
+    vim.o.guifont = "JetBrainsMono Nerd Font,LXGW WenKai Screen:h11"
 end
 
 opt.shiftwidth = 4

@@ -17,6 +17,11 @@ vim.filetype.add({
     extension = { sage = 'python' },
     pattern   = { ['.*%.sage'] = 'sage' },
 })
+vim.filetype.add {
+    extension = {
+      mcfunction = 'mcfunction',
+    },
+}
 
 vim.g.neovide_padding_top = 20
 vim.g.neovide_padding_left = 0

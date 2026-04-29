@@ -35,7 +35,20 @@ map("n", "<leader>ct", function()
 end, { desc = "Toggle Copilot" })
 
 -- Toggle light/dark theme
-map('n', '<leader>tt', function() require("theme_toggle").toggle() end, { desc = "Toggle light/dark theme" })
+map('n', '<leader>t', function() require("theme_toggle").toggle() end, { desc = "Toggle light/dark theme" })
+
+-- Auto-save toggle
+local autosave_enabled = true
+map('n', '<leader>as', function()
+    autosave_enabled = not autosave_enabled
+    if autosave_enabled then
+        vim.opt.updatetime = 2000
+        print("Auto-save On")
+    else
+        vim.opt.updatetime = 4000
+        print("Auto-save Off")
+    end
+end, { desc = 'Toggle Auto-save' })
 
 -- Toggle line wrap
 map('n', '<leader>w', function()
@@ -66,6 +79,20 @@ map("n", "<leader>r", function()
         vim.cmd('RunCode')
     end
 end, { desc = "Run code / Run markdown codeblock" })
+
+-- Typst
+local typst_job = nil
+map('n', '<leader>tc', function()
+    if typst_job then
+        vim.fn.jobstop(typst_job)
+        typst_job = nil
+        print("Typst watch stopped")
+    else
+        local file = vim.fn.expand('%')
+        typst_job = vim.fn.jobstart({ 'typst', 'watch', file }, { detach = false })
+        print("Typst watch started: " .. file)
+    end
+end, { desc = 'Toggle typst watch' })
 
 -- Abbreviations (C++ competitive programming)
 vim.cmd [[

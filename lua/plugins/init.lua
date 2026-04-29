@@ -35,6 +35,7 @@ return {
     {
         'MeanderingProgrammer/render-markdown.nvim',
         dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },
+        build = 'git apply --ignore-whitespace ' .. vim.fn.stdpath('config') .. '/patches/render-markdown-latex.patch || true',
         cmd = "RenderMarkdown",
         lazy = false,
         opts = {
@@ -42,7 +43,7 @@ return {
             latex = {
                 enabled = true,
                 render_modes = false,
-                converter = { 'utftex', 'latex2text' },
+                converter = { 'utftex-clean', 'latex2text' },
                 highlight = 'RenderMarkdownMath',
                 position = 'center',
                 top_pad = 0,
@@ -95,6 +96,12 @@ return {
     },
     { "petRUShka/vim-sage" },
     {
+        "chomosuke/typst-preview.nvim",
+        ft = "typst",
+        version = "^1.0.0",
+        opts = {},
+    },
+    {
         "nvim-treesitter/nvim-treesitter",
         opts = {
             ensure_installed = { "vim", "lua", "vimdoc", "html", "css", "cpp", "c", "python", "latex" },
@@ -124,20 +131,6 @@ return {
         end
     },
     {
-        "okuuva/auto-save.nvim",
-        lazy = false,
-        version = '^1.0.0',
-        cmd = "ASToggle",
-        event = { "InsertLeave", "TextChanged" },
-        opts = {
-            enabled = true,
-            debounce_delay = 3000,
-            trigger_events = {
-                defer_save = { "InsertEnter", "TextChanged" },
-            },
-        },
-    },
-    {
         "CRAG666/code_runner.nvim",
         cmd = { "RunCode" },
         opts = {
@@ -145,7 +138,7 @@ return {
                 cpp = {
                     "cd $dir &&",
                     "g++ $fileName -o $fileNameWithoutExt &&",
-                    "./$fileNameWithoutExt ;",
+                    "time ./$fileNameWithoutExt ;",
                     "rm $fileNameWithoutExt",
                 },
                 sage = {

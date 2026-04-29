@@ -24,8 +24,8 @@ local c_light = {
 
 -- ── color palette for dark mode ─────────────────────────────────────────────
 local c_dark = {
-    bg       = "#101018",   -- main background
-    bg1      = "#101018",   -- slightly lighter (panels, float)
+    bg       = "#101218",   -- main background
+    bg1      = "#101218",   -- slightly lighter (panels, float)
     bg2      = "#202028",   -- darker panel (statusline, tabline)
     bg3      = "#303038",   -- border / separator fill
     fg       = "#ffffff",   -- main text (pure white)
@@ -39,7 +39,7 @@ local c_dark = {
     yellow   = "#ffdd44",   -- warnings, decorators, lifetimes
     purple   = "#dd88ff",   -- special, attributes
     sel      = "#1a5fa0",   -- visual selection
-    search   = "#884422",   -- search highlight bg
+    search   = "#1a5fa0",   -- search highlight bg
 }
 
 local c = c_light  -- default to light mode
@@ -68,8 +68,8 @@ local light = {
     Visual            = hl(nil,   c.sel),
     VisualNOS         = hl(nil,   c.sel),
     Search            = hl(c.fg,  c.search),
-    IncSearch         = hl("#ffffff", "#ff8800"),
-    CurSearch         = hl(c.fg,  "#ffcc00"),
+    IncSearch         = hl("#ffffff", "#ff8844"),
+    CurSearch         = hl(c.fg,  "#ff8844"),
     MatchParen        = hl(nil,   c.bg3, {bold=true}),
     EndOfBuffer       = hl(c.bg3, nil),
     Folded            = hl(c.fg3, c.bg2),
@@ -80,6 +80,7 @@ local light = {
     Whitespace        = hl(c.bg3, nil),
     WinSeparator      = hl(c.bg3, nil),
     VertSplit         = hl(c.bg3, nil),
+    Title             = hl(c.fg,  nil, {bold=true}),
 
     -- ── Statusline / tabline ─────────────────────────────────────────────────
     StatusLine        = hl(c.fg2, c.bg2),
@@ -577,8 +578,8 @@ local dark = {
     Visual            = hl(nil,        c_dark.sel),
     VisualNOS         = hl(nil,        c_dark.sel),
     Search            = hl(c_dark.bg,  c_dark.search),
-    IncSearch         = hl("#000000",  "#ff8800"),
-    CurSearch         = hl(c_dark.bg,  "#ffcc00"),
+    IncSearch         = hl("#000000",  "#44dddd"),
+    CurSearch         = hl(c_dark.bg,  "#44dddd"),
     MatchParen        = hl(nil,        c_dark.bg3, {bold=true}),
     EndOfBuffer       = hl(c_dark.bg3, nil),
     Folded            = hl(c_dark.fg3, c_dark.bg2),
@@ -589,6 +590,7 @@ local dark = {
     Whitespace        = hl(c_dark.bg3, nil),
     WinSeparator      = hl(c_dark.bg3, nil),
     VertSplit         = hl(c_dark.bg3, nil),
+    Title             = hl(c_dark.fg,  nil, {bold=true}), 
 
     -- ── Statusline / tabline ─────────────────────────────────────────────────
     StatusLine        = hl(c_dark.fg2, c_dark.bg2),
@@ -1094,6 +1096,23 @@ end
 -- Snapshot of dark-mode values, populated just before entering light mode
 local dark_snapshot = {}
 
+-- Reload render-markdown's cached combined highlight groups and re-render all
+-- open markdown buffers. Must be called after highlight groups are updated.
+local function refresh_render_markdown()
+    local ok_colors, rm_colors = pcall(require, 'render-markdown.core.colors')
+    if ok_colors then rm_colors.reload() end
+
+    local ok_api, rm_api = pcall(require, 'render-markdown')
+    if not ok_api then return end
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_loaded(buf)
+            and vim.bo[buf].filetype == 'markdown'
+        then
+            pcall(rm_api.render, { buf = buf, event = 'ThemeToggle' })
+        end
+    end
+end
+
 function M.toggle()
     if is_light then
         dark_snapshot = {}
@@ -1116,6 +1135,7 @@ function M.toggle()
         is_light = true
         vim.notify("Light mode", vim.log.levels.INFO)
     end
+    vim.schedule(refresh_render_markdown)
 end
 
 function M.is_light()
@@ -1129,6 +1149,7 @@ function M.init()
             vim.api.nvim_set_hl(0, group, opts)
         end
     end
+    vim.schedule(refresh_render_markdown)
 end
 
 return M

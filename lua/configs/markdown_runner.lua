@@ -138,6 +138,7 @@ function M.run_codeblock()
 
     -- 7. run in a terminal
     vim.fn.termopen(cmd, {
+        env = { TERM = 'xterm-256color' },
         on_exit = function(_, _, _)
             vim.fn.delete(tmpfile)
         end,

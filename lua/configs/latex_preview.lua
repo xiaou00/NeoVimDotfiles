@@ -444,18 +444,29 @@ end
 -- ── Setup ─────────────────────────────────────────────────────────────────────
 
 function M.setup()
+  -- HTML: highlight $$...$$ and $...$ with the same math color as LaTeX
+  vim.api.nvim_create_autocmd('BufWinEnter', {
+    pattern  = '*.html',
+    callback = function()
+      if vim.w.html_math_hl then return end
+      vim.fn.matchadd('@markup.math', '\\$\\$\\_.\\{-}\\$\\$', 12)
+      vim.fn.matchadd('@markup.math', '\\$[^$\\n]\\{-}[^$\\n]\\$', 10)
+      vim.w.html_math_hl = true
+    end,
+  })
+
   vim.api.nvim_create_autocmd('CursorHold', {
-    pattern  = '*.tex',
+    pattern  = { '*.tex', '*.html' },
     callback = function() vim.schedule(M.auto_preview) end,
   })
   -- Close auto-preview immediately when cursor moves
   vim.api.nvim_create_autocmd('CursorMoved', {
-    pattern  = '*.tex',
+    pattern  = { '*.tex', '*.html' },
     callback = close_auto,
   })
 
   vim.api.nvim_create_autocmd('FileType', {
-    pattern  = 'tex',
+    pattern  = { 'tex', 'html' },
     callback = function()
       local buf  = vim.api.nvim_get_current_buf()
       local opts = { buffer = buf, silent = true }

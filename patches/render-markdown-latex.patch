@@ -1,0 +1,38 @@
+diff --git a/lua/render-markdown/handler/latex.lua b/lua/render-markdown/handler/latex.lua
+index 964ada9..0ca4ecd 100644
+--- a/lua/render-markdown/handler/latex.lua
++++ b/lua/render-markdown/handler/latex.lua
+@@ -218,14 +218,25 @@ function Handler:render(row, nodes)
+                 below = #output
+             else
+                 assert(node:height() == 1, 'invalid center height')
+-                local center = math.floor(#output / 2) + 1
+-                above = center - 1
+-                below = #output - center
+-                self.marks:over(self.config, 'latex', node, {
+-                    virt_text = { { output[center], self.config.highlight } },
+-                    virt_text_pos = 'inline',
+-                    conceal = '',
+-                })
++                if #output == 1 then
++                    -- Single-line: inline replacement, original behavior
++                    above = 0
++                    below = 0
++                    self.marks:over(self.config, 'latex', node, {
++                        virt_text = { { output[1], self.config.highlight } },
++                        virt_text_pos = 'inline',
++                        conceal = '',
++                    })
++                else
++                    -- Multi-line: all lines as virt_lines_above, conceal source
++                    above = #output
++                    below = 0
++                    self.marks:over(self.config, 'latex', node, {
++                        virt_text = { { '', self.config.highlight } },
++                        virt_text_pos = 'inline',
++                        conceal = '',
++                    })
++                end
+             end
+ 
+             -- fill in new lines at top and bottom

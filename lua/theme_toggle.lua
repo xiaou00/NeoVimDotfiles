@@ -232,7 +232,7 @@ local light = {
     ["@markup.list"]                = hl(c.red,    nil),
     ["@markup.list.checked"]        = hl(c.green,  nil),
     ["@markup.list.unchecked"]      = hl(c.fg3,    nil),
-    ["@markup.quote"]               = hl(c.fg2,    nil, {italic=true}),
+    ["@markup.quote"]               = hl(c.fg,     nil),
     ["@markup.math"]                = hl(c.teal,   nil),
 
     ["@diff.plus"]                  = hl(c.green,  nil),
@@ -561,6 +561,12 @@ local light = {
     RenderMarkdownTableHead       = hl(c.teal,   nil, {bold=true}),
     RenderMarkdownTableRow        = hl(c.fg,     nil),
     RenderMarkdownTableFill       = hl(c.bg3,    nil),
+    RenderMarkdownDef             = hl(c.red,    "#ffeeee"),
+    RenderMarkdownThm             = hl(c.blue,   "#eef3ff"),
+    RenderMarkdownLem             = hl(c.teal,   "#eef8f8"),
+    RenderMarkdownProp            = hl(c.green,  "#eeffee"),
+    RenderMarkdownCol             = hl(c.purple, "#f5eeff"),
+    RenderMarkdownPf              = hl(c.fg3,    nil),
 }
 
 -- ── all overrides for dark mode ──────────────────────────────────────────────
@@ -742,7 +748,7 @@ local dark = {
     ["@markup.list"]                = hl(c_dark.red,    nil),
     ["@markup.list.checked"]        = hl(c_dark.green,  nil),
     ["@markup.list.unchecked"]      = hl(c_dark.fg3,    nil),
-    ["@markup.quote"]               = hl(c_dark.fg2,    nil, {italic=true}),
+    ["@markup.quote"]               = hl(c_dark.fg,     nil),
     ["@markup.math"]                = hl(c_dark.teal,   nil),
 
     ["@diff.plus"]                  = hl(c_dark.green,  nil),
@@ -1069,6 +1075,12 @@ local dark = {
     RenderMarkdownTableHead         = hl(c_dark.teal,   nil, {bold=true}),
     RenderMarkdownTableRow          = hl(c_dark.fg,     nil),
     RenderMarkdownTableFill         = hl(c_dark.bg3,    nil),
+    RenderMarkdownDef               = hl(c_dark.red,    "#2a1010"),
+    RenderMarkdownThm               = hl(c_dark.blue,   "#101828"),
+    RenderMarkdownLem               = hl(c_dark.teal,   "#0a2020"),
+    RenderMarkdownProp              = hl(c_dark.green,  "#0a200a"),
+    RenderMarkdownCol               = hl(c_dark.purple, "#200a28"),
+    RenderMarkdownPf                = hl(c_dark.fg3,    nil),
 }
 
 M.dark_highlights = dark

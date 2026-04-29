@@ -40,6 +40,16 @@ return {
         lazy = false,
         opts = {
             anti_conceal = { enabled = false },
+            heading = { enabled = false },
+            quote = { repeat_linebreak = true },
+            callout = {
+                def  = { raw = '[!DEF]',  rendered = '≝ Definition',  highlight = 'RenderMarkdownDef'  },
+                thm  = { raw = '[!THM]',  rendered = '⊢ Theorem',     highlight = 'RenderMarkdownThm'  },
+                lem  = { raw = '[!LEM]',  rendered = '◈ Lemma',        highlight = 'RenderMarkdownLem'  },
+                prop = { raw = '[!PROP]', rendered = '◇ Proposition',  highlight = 'RenderMarkdownProp' },
+                col  = { raw = '[!COL]',  rendered = '∴ Corollary',    highlight = 'RenderMarkdownCol'  },
+                pf   = { raw = '[!PF]',   rendered = '□ Proof',        highlight = 'RenderMarkdownPf'   },
+            },
             latex = {
                 enabled = true,
                 render_modes = false,

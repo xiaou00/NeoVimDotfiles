@@ -109,7 +109,9 @@ return {
         "chomosuke/typst-preview.nvim",
         ft = "typst",
         version = "^1.0.0",
-        opts = {},
+        opts = {
+            get_root = require("configs.typst").root,
+        },
     },
     {
         "nvim-treesitter/nvim-treesitter",
@@ -341,4 +343,12 @@ return {
             require('alpha').setup(require('alpha.themes.dashboard').config)
         end
     },
+    {
+        "sevenc-nanashi/neov-ime.nvim",
+        cond = vim.g.neovide,
+    },
+    --{
+    --    dir = "/home/xiaou0/Projects/LuaProjects/typst-math-preview.nvim",
+    --    ft = "typst",
+    --},
 }

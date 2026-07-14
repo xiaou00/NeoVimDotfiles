@@ -23,10 +23,18 @@ vim.filetype.add {
     },
 }
 
-vim.g.neovide_padding_top = 20
-vim.g.neovide_padding_left = 0
-vim.g.neovide_padding_right = 0
-vim.g.neovide_padding_bottom = 20
+-- Neovide settings
+
+vim.g.neovide_padding_top = 10
+vim.g.neovide_padding_left = 10
+vim.g.neovide_padding_right = 10
+vim.g.neovide_padding_bottom = 10
+
+vim.g.neovide_cursor_animation_length = 0.8
+vim.g.neovide_cursor_short_animation_length = 0.01
+vim.g.neovide_scroll_animation_length = 0.06
+vim.g.neovide_position_animation_length = 0.03
+vim.g.neovide_cursor_trail_size = 1.0
 
 -- load plugins
 require("lazy").setup({
@@ -71,3 +79,5 @@ vim.api.nvim_create_autocmd("User", {
     end)
   end,
 })
+
+require('neov-ime').setup()

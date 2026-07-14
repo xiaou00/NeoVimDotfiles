@@ -88,8 +88,8 @@ map('n', '<leader>tc', function()
         typst_job = nil
         print("Typst watch stopped")
     else
-        local file = vim.fn.expand('%')
-        typst_job = vim.fn.jobstart({ 'typst', 'watch', file }, { detach = false })
+        local file = vim.fn.expand('%:p')
+        typst_job = vim.fn.jobstart(require('configs.typst').command('watch', file), { detach = false })
         print("Typst watch started: " .. file)
     end
 end, { desc = 'Toggle typst watch' })
@@ -108,4 +108,23 @@ vim.cmd [[
     inoreabbrev // /*  */<left><left><left><C-R>
     inoreabbrev #i #include <bits/stdc++.h><enter>using namespace std;<enter><enter>#define ll long long<enter>#define ld long double<enter>#define pii pair<int,int><enter>#define fi(_x) _x.first<enter>#define se(_x) _x.second<enter>const int N=200009;<enter><enter>void input(){<enter><enter>}<enter><enter>void solve(){<enter><enter>}<enter><enter>int main(){<enter>ios::sync_with_stdio(false);<enter>cin.tie(0);<enter>input();<enter>solve();<enter>return 0;<enter>}<C-R>
     inoreabbrev cr <cmd>CompetiTest run<CR>
+
+    inoreabbrev <+ <=
+    inoreabbrev >+ >=
+    inoreabbrev +. plus.o
+    inoreabbrev x. times.o
+    inoreabbrev ca cal()<left><C-R>
+    inoreabbrev fr frak()<left><C-R>
+    inoreabbrev bo bold()<left><C-R>
+    inoreabbrev sc scr()<left><C-R>
+    inoreabbrev no. node((,),$$),
+    inoreabbrev ed. edge((,),(,),"->"),
+    inoreabbrev oof $oo$-范畴<C-R>
+
+    inoreabbrev #d #definition(title:[])[<enter><enter>]<left><left><tab><left><left><left><left><left><left><C-R>
+    inoreabbrev #t #theorem(title:[])[<enter><enter>]<left><left><tab><left><left><left><left><left><left><C-R>
+    inoreabbrev #c #corollary[<enter><enter>]<left><left><tab><C-R>
+    inoreabbrev #l #lemma[<enter><enter>]<left><left><tab><C-R>
+    inoreabbrev #r #remark[<enter><enter>]<left><left><tab><C-R>
+    inoreabbrev #p #proof[<enter><enter>]<left><left><tab><C-R>
 ]]

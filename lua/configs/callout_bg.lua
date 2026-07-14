@@ -56,7 +56,7 @@ local function apply(bufnr)
                     end_row  = row + 1,
                     hl_group = current_hl,
                     hl_eol   = true,
-                    priority = 49,
+                    priority = 9,
                 })
             end
         end

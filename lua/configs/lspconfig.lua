@@ -1,16 +1,25 @@
 require("nvchad.configs.lspconfig").defaults()
 
 local servers = { "html", "cssls", "tinymist" }
-vim.lsp.enable(servers)
+
+local tinymist_settings = {
+    exportPdf = "onSave",
+    outputPath = "$root/$dir/$name",
+    previewFeature = "enable",
+    sysInputs = {},
+    pdfOpenCommand = "zathura",
+}
 
 vim.lsp.config("tinymist", {
-    settings = {
-        exportPdf = "onSave",
-        outputPath = "$root/$dir/$name",
-        previewFeature = "enable",
-        sysInputs = {},
-        pdfOpenCommand = "zathura",
-    },
+    settings = tinymist_settings,
+    root_dir = function(bufnr, on_dir)
+        on_dir(require("configs.typst").root(vim.api.nvim_buf_get_name(bufnr)))
+    end,
+    before_init = function(_, config)
+        config.settings.rootPath = config.root_dir
+    end,
 })
+
+vim.lsp.enable(servers)
 
 -- read :h vim.lsp.config for changing options of lsp servers 

@@ -12,9 +12,9 @@ local c_light = {
     fg2      = "#444444",   -- secondary text (strings, doc)
     fg3      = "#777777",   -- muted (comments, line numbers)
     red      = "#cc0000",   -- keywords, operators, errors
-    teal     = "#007777",   -- types, properties
+    teal     = "#228080",   -- types, properties
     orange   = "#cc5500",   -- numbers, float literals
-    blue     = "#0055cc",   -- info, tags, imports
+    blue     = "#0088cc",   -- info, tags, imports
     green    = "#006600",   -- git add, ok
     yellow   = "#886600",   -- warnings, decorators, lifetimes
     purple   = "#6600cc",   -- special, attributes
@@ -24,22 +24,22 @@ local c_light = {
 
 -- ── color palette for dark mode ─────────────────────────────────────────────
 local c_dark = {
-    bg       = "#101218",   -- main background
-    bg1      = "#101218",   -- slightly lighter (panels, float)
+    bg       = "#101212",   -- main background
+    bg1      = "#101212",   -- slightly lighter (panels, float)
     bg2      = "#202028",   -- darker panel (statusline, tabline)
     bg3      = "#303038",   -- border / separator fill
     fg       = "#ffffff",   -- main text (pure white)
     fg2      = "#d0d0d0",   -- secondary text (strings, doc)
     fg3      = "#808080",   -- muted (comments, line numbers)
     red      = "#ff4444",   -- keywords, operators, errors
-    teal     = "#44dddd",   -- types, properties
+    teal     = "#44bbbb",   -- types, properties
     orange   = "#ff7722",   -- numbers, float literals
-    blue     = "#5599ff",   -- info, tags, imports
+    blue     = "#22aaee",   -- info, tags, imports
     green    = "#44dd44",   -- git add, ok
     yellow   = "#ffdd44",   -- warnings, decorators, lifetimes
     purple   = "#dd88ff",   -- special, attributes
-    sel      = "#1a5fa0",   -- visual selection
-    search   = "#1a5fa0",   -- search highlight bg
+    sel      = "#22aaee",   -- visual selection
+    search   = "#22aaee",   -- search highlight bg
 }
 
 local c = c_light  -- default to light mode
@@ -131,7 +131,7 @@ local light = {
     Structure         = hl(c.teal,  nil, {bold=true}),
     Typedef           = hl(c.teal,  nil, {bold=true}),
     Type              = hl(c.teal,  nil, {bold=true}),
-    Special           = hl(c.purple, nil),
+    Special           = hl(c.blue, nil),
     SpecialChar       = hl(c.orange, nil),
     Tag               = hl(c.blue,  nil),
     Delimiter         = hl(c.fg3,   nil),
@@ -561,12 +561,56 @@ local light = {
     RenderMarkdownTableHead       = hl(c.teal,   nil, {bold=true}),
     RenderMarkdownTableRow        = hl(c.fg,     nil),
     RenderMarkdownTableFill       = hl(c.bg3,    nil),
-    RenderMarkdownDef             = hl(c.red,    "#ffeeee"),
-    RenderMarkdownThm             = hl(c.blue,   "#eef3ff"),
-    RenderMarkdownLem             = hl(c.teal,   "#eef8f8"),
-    RenderMarkdownProp            = hl(c.green,  "#eeffee"),
-    RenderMarkdownCol             = hl(c.purple, "#f5eeff"),
+    RenderMarkdownDef             = hl(c.red,    c.bg),
+    RenderMarkdownThm             = hl(c.blue,   c.bg),
+    RenderMarkdownLem             = hl(c.teal,   c.bg),
+    RenderMarkdownProp            = hl(c.green,  c.bg),
+    RenderMarkdownCol             = hl(c.purple, c.bg),
     RenderMarkdownPf              = hl(c.fg3,    nil),
+
+    -- ── base46 statusline overrides ──────────────────────────────────────────
+    -- ST_EmptySpace (capital T, used in stl/default.lua, not defined by base46)
+    ST_EmptySpace            = hl(c.bg2, c.bg2),
+    -- mode pills: colored bg with white/dark text, same pill structure as dark mode
+    St_NormalMode            = hl("#eeeeee", "#555555", {bold=true}),
+    St_NormalModeSep         = hl("#555555", c.bg2),
+    St_InsertMode            = hl("#ffffff", "#bd5e91", {bold=true}),
+    St_InsertModeSep         = hl("#bd5e91", c.bg2),
+    St_VisualMode            = hl("#ffffff", "#00c3a5", {bold=true}),
+    St_VisualModeSep         = hl("#00c3a5", c.bg2),
+    St_ReplaceMode           = hl("#ffffff", "#cd6316", {bold=true}),
+    St_ReplaceModeSep        = hl("#cd6316", c.bg2),
+    St_SelectMode            = hl("#1e1e1e", "#aaaaaa", {bold=true}),
+    St_SelectModeSep         = hl("#aaaaaa", c.bg2),
+    St_TerminalMode          = hl("#ffffff", "#0088cc", {bold=true}),
+    St_TerminalModeSep       = hl("#0088cc", c.bg2),
+    St_NTerminalMode         = hl("#1e1e1e", "#ffcc00", {bold=true}),
+    St_NTerminalModeSep      = hl("#ffcc00", c.bg2),
+    St_CommandMode           = hl("#ffffff", "#0088cc", {bold=true}),
+    St_CommandModeSep        = hl("#0088cc", c.bg2),
+    St_ConfirmMode           = hl("#ffffff", "#0088cc", {bold=true}),
+    St_ConfirmModeSep        = hl("#0088cc", c.bg2),
+    -- panel sections on light statusline bg
+    St_EmptySpace            = hl(c.bg3,  c.bg2),
+    St_file                  = hl(c.fg2,  c.bg2),
+    St_file_sep              = hl(c.bg2,  nil),
+    St_cwd_text              = hl(c.fg2,  c.bg2),
+    -- icons and LSP adapted for light bg
+    St_gitIcons              = hl(c.fg3,  nil),
+    St_Lsp                   = hl(c.fg2,  nil),
+    St_LspMsg                = hl("#0088cc", nil),
+    St_LspInfo               = hl("#0088cc", nil),
+    St_lspError              = hl(c.red,    nil),
+    St_lspWarning            = hl(c.yellow, nil),
+    St_LspHints              = hl(c.fg3,    nil),
+    St_pos_sep               = hl("#0088cc", c.bg2),
+    St_pos_icon              = hl("#ffffff", "#0088cc"),
+    St_pos_text              = hl("#0088cc", c.bg2),
+
+    -- ── devicon overrides ─────────────────────────────────────────────────────
+    DevIconCpp               = hl("#0088cc", nil),
+    DevIconCppm              = hl("#0088cc", nil),
+    DevIconts                = hl("#0088cc", nil),
 }
 
 -- ── all overrides for dark mode ──────────────────────────────────────────────
@@ -584,8 +628,8 @@ local dark = {
     Visual            = hl(nil,        c_dark.sel),
     VisualNOS         = hl(nil,        c_dark.sel),
     Search            = hl(c_dark.bg,  c_dark.search),
-    IncSearch         = hl("#000000",  "#44dddd"),
-    CurSearch         = hl(c_dark.bg,  "#44dddd"),
+    IncSearch         = hl("#000000",  "#22aaee"),
+    CurSearch         = hl(c_dark.bg,  "#22aaee"),
     MatchParen        = hl(nil,        c_dark.bg3, {bold=true}),
     EndOfBuffer       = hl(c_dark.bg3, nil),
     Folded            = hl(c_dark.fg3, c_dark.bg2),
@@ -647,7 +691,7 @@ local dark = {
     Structure         = hl(c_dark.teal,  nil, {bold=true}),
     Typedef           = hl(c_dark.teal,  nil, {bold=true}),
     Type              = hl(c_dark.teal,  nil, {bold=true}),
-    Special           = hl(c_dark.purple, nil),
+    Special           = hl(c_dark.blue, nil),
     SpecialChar       = hl(c_dark.orange, nil),
     Tag               = hl(c_dark.blue,  nil),
     Delimiter         = hl(c_dark.fg3,   nil),
@@ -1075,14 +1119,56 @@ local dark = {
     RenderMarkdownTableHead         = hl(c_dark.teal,   nil, {bold=true}),
     RenderMarkdownTableRow          = hl(c_dark.fg,     nil),
     RenderMarkdownTableFill         = hl(c_dark.bg3,    nil),
-    RenderMarkdownDef               = hl(c_dark.red,    "#2a1010"),
-    RenderMarkdownThm               = hl(c_dark.blue,   "#101828"),
-    RenderMarkdownLem               = hl(c_dark.teal,   "#0a2020"),
-    RenderMarkdownProp              = hl(c_dark.green,  "#0a200a"),
-    RenderMarkdownCol               = hl(c_dark.purple, "#200a28"),
+    RenderMarkdownDef               = hl(c_dark.red,    c_dark.bg),
+    RenderMarkdownThm               = hl(c_dark.blue,   c_dark.bg),
+    RenderMarkdownLem               = hl(c_dark.teal,   c_dark.bg),
+    RenderMarkdownProp              = hl(c_dark.green,  c_dark.bg),
+    RenderMarkdownCol               = hl(c_dark.purple, c_dark.bg),
     RenderMarkdownPf                = hl(c_dark.fg3,    nil),
+
+    -- ── base46 statusline (exact values + #729cff→#22aaee) ───────────────────
+    -- base46 convention: Mode={fg=black,bg=col,bold}, ModeSep={fg=col,bg=grey}
+    ST_EmptySpace            = hl("#414141", "#303030"),
+    St_NormalMode            = hl("#1e1e1e", "#ffffff", {bold=true}),
+    St_NormalModeSep         = hl("#ffffff", "#414141"),
+    St_InsertMode            = hl("#1e1e1e", "#bd5e91", {bold=true}),
+    St_InsertModeSep         = hl("#bd5e91", "#414141"),
+    St_VisualMode            = hl("#1e1e1e", "#00c3a5", {bold=true}),
+    St_VisualModeSep         = hl("#00c3a5", "#414141"),
+    St_ReplaceMode           = hl("#1e1e1e", "#cd6316", {bold=true}),
+    St_ReplaceModeSep        = hl("#cd6316", "#414141"),
+    St_SelectMode            = hl("#1e1e1e", "#eeeeee", {bold=true}),
+    St_SelectModeSep         = hl("#eeeeee", "#414141"),
+    St_TerminalMode          = hl("#1e1e1e", "#22aaee", {bold=true}),
+    St_TerminalModeSep       = hl("#22aaee", "#414141"),
+    St_NTerminalMode         = hl("#1e1e1e", "#ffcc00", {bold=true}),
+    St_NTerminalModeSep      = hl("#ffcc00", "#414141"),
+    St_CommandMode           = hl("#1e1e1e", "#22aaee", {bold=true}),
+    St_CommandModeSep        = hl("#22aaee", "#414141"),
+    St_ConfirmMode           = hl("#1e1e1e", "#22aaee", {bold=true}),
+    St_ConfirmModeSep        = hl("#22aaee", "#414141"),
+    St_EmptySpace            = hl("#414141", "#303030"),
+    St_file                  = hl("#d3d3d3", "#303030"),
+    St_file_sep              = hl("#303030", nil),
+    St_cwd_text              = hl("#d3d3d3", "#303030"),
+    St_gitIcons              = hl("#ffffff", nil),
+    St_Lsp                   = hl("#ffffff", nil),
+    St_LspMsg                = hl("#22aaee", nil),
+    St_LspInfo               = hl("#22aaee", nil),
+    St_lspError              = hl("#ff6464", nil),
+    St_lspWarning            = hl("#ffcc00", nil),
+    St_LspHints              = hl("#555555", nil),
+    St_pos_sep               = hl("#22aaee", "#303030"),
+    St_pos_icon              = hl("#1e1e1e", "#22aaee"),
+    St_pos_text              = hl("#22aaee", "#303030"),
+
+    -- ── devicon overrides ─────────────────────────────────────────────────────
+    DevIconCpp               = hl("#22aaee", nil),
+    DevIconCppm              = hl("#22aaee", nil),
+    DevIconts                = hl("#22aaee", nil),
 }
 
+M.light_highlights = light
 M.dark_highlights = dark
 
 -- Only these fields are safe to round-trip through nvim_get_hl → nvim_set_hl.
@@ -1154,12 +1240,11 @@ function M.is_light()
     return is_light
 end
 
--- Initialize with dark mode on startup
+-- Apply current mode's highlights (called at startup and after base46 reloads)
 function M.init()
-    if not is_light then
-        for group, opts in pairs(dark) do
-            vim.api.nvim_set_hl(0, group, opts)
-        end
+    local hl_table = is_light and light or dark
+    for group, opts in pairs(hl_table) do
+        vim.api.nvim_set_hl(0, group, opts)
     end
     vim.schedule(refresh_render_markdown)
 end

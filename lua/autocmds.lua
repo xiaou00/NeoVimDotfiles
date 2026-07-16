@@ -2,15 +2,6 @@ require "nvchad.autocmds"
 require("configs.latex_preview").setup()
 require("configs.callout_bg").setup()
 
--- Auto-compile typst on save
-vim.api.nvim_create_autocmd("BufWritePost", {
-    pattern = "*.typ",
-    callback = function()
-        local file = vim.fn.expand("%:p")
-        vim.fn.jobstart(require("configs.typst").command("compile", file), { detach = true })
-    end,
-})
-
 -- Auto-save: trigger every few seconds via CursorHold
 vim.opt.updatetime = 2000
 

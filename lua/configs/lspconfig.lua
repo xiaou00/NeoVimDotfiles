@@ -3,11 +3,10 @@ require("nvchad.configs.lspconfig").defaults()
 local servers = { "html", "cssls", "tinymist" }
 
 local tinymist_settings = {
-    exportPdf = "onSave",
+    exportPdf = "never",
     outputPath = "$root/$dir/$name",
     previewFeature = "enable",
     sysInputs = {},
-    pdfOpenCommand = "zathura",
 }
 
 vim.lsp.config("tinymist", {

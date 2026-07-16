@@ -347,6 +347,17 @@ return {
         "sevenc-nanashi/neov-ime.nvim",
         cond = vim.g.neovide,
     },
+    {
+        "chomosuke/typst-preview.nvim",
+        lazy = false,
+        version = "1.*",
+        opts = {
+            open_cmd = "firefox %s",
+            dependencies_bin = {
+                tinymist = "tinymist",
+            }
+        },
+    },
     --{
     --    dir = "/home/xiaou0/Projects/LuaProjects/typst-math-preview.nvim",
     --    ft = "typst",

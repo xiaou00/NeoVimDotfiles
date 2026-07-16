@@ -89,7 +89,7 @@ map('n', '<leader>tc', function()
         print("Typst watch stopped")
     else
         local file = vim.fn.expand('%:p')
-        typst_job = vim.fn.jobstart(require('configs.typst').command('watch', file), { detach = false })
+        typst_job = vim.fn.jobstart(require('configs.typst').atomic_watch_command(file), { detach = false })
         print("Typst watch started: " .. file)
     end
 end, { desc = 'Toggle typst watch' })

@@ -1,10 +1,101 @@
 local M = {}
 
+local function chapters_root(path)
+    local dir = vim.fs.dirname(vim.fn.fnamemodify(path, ":p"))
+    while dir do
+        if vim.fs.basename(dir) == "chapters" then
+            return vim.fs.dirname(dir)
+        end
+        local parent = vim.fs.dirname(dir)
+        if parent == dir then
+            break
+        end
+        dir = parent
+    end
+end
+
 function M.root(path)
+    local book_root = chapters_root(path)
+    if book_root then
+        return book_root
+    end
     local start = vim.fs.dirname(vim.fn.fnamemodify(path, ":p"))
     local template = vim.fs.find("template.typ", { path = start, upward = true })[1]
 
     return template and vim.fs.dirname(template) or start
+end
+
+-- Chapter references belong to the document that includes the chapters.
+function M.main_file(path)
+    path = vim.fs.normalize(vim.fn.fnamemodify(path, ":p"))
+    local root = chapters_root(path)
+    if not root then
+        return path
+    end
+
+    local candidates = {}
+    for name, kind in vim.fs.dir(root) do
+        if (kind == "file" or kind == "link") and name:match("%.typ$") then
+            local file = vim.fs.joinpath(root, name)
+            local ok, lines = pcall(vim.fn.readfile, file)
+            if ok then
+                for _, line in ipairs(lines) do
+                    if line:match('^%s*#include%s+"%./chapters/')
+                        or line:match('^%s*#include%s+"chapters/') then
+                        candidates[#candidates + 1] = file
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    if #candidates == 1 then
+        return candidates[1]
+    end
+    for _, name in ipairs({ "main.typ", "book.typ", "index.typ" }) do
+        for _, file in ipairs(candidates) do
+            if vim.fs.basename(file) == name then
+                return file
+            end
+        end
+    end
+    return path
+end
+
+function M.on_attach(client, bufnr)
+    local function update_main()
+        if client:is_stopped() or vim.api.nvim_get_current_buf() ~= bufnr then
+            return
+        end
+        local path = vim.fs.normalize(vim.api.nvim_buf_get_name(bufnr))
+        local main = M.main_file(path)
+        local target = main ~= path and main or nil
+        if client._typst_auto_main == target then
+            return
+        end
+        client._typst_auto_main = target
+        client:exec_cmd({
+            title = "Select Typst book entry",
+            command = "tinymist.pinMain",
+            arguments = { target or vim.v.null },
+        }, { bufnr = bufnr }, function(err)
+            if err then
+                client._typst_auto_main = nil
+                vim.notify("Tinymist: " .. err.message, vim.log.levels.WARN)
+            end
+        end)
+    end
+
+    local group = vim.api.nvim_create_augroup("TypstBookEntry" .. client.id, { clear = false })
+    vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
+    vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost" }, {
+        group = group,
+        buffer = bufnr,
+        callback = update_main,
+        desc = "Use the book entry for files below chapters",
+    })
+    vim.schedule(update_main)
 end
 
 function M.command(action, path)

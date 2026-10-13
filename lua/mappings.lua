@@ -2,8 +2,17 @@ require "nvchad.mappings"
 
 local map = vim.keymap.set
 
+-- 按屏幕显示行上下移动，保留折行中的屏幕列位置。
+map({ "n", "x" }, "j", "gj", { desc = "Move down one display line" })
+map({ "n", "x" }, "k", "gk", { desc = "Move up one display line" })
+map({ "n", "x" }, "<Down>", "gj", { desc = "Move down one display line" })
+map({ "n", "x" }, "<Up>", "gk", { desc = "Move up one display line" })
+map("i", "<Down>", "<C-\\><C-o>gj", { desc = "Move down one display line" })
+map("i", "<Up>", "<C-\\><C-o>gk", { desc = "Move up one display line" })
+map("i", "<C-j>", "<C-\\><C-o>gj", { desc = "Move down one display line" })
+map("i", "<C-k>", "<C-\\><C-o>gk", { desc = "Move up one display line" })
+
 map("n", ";", ":", { desc = "CMD enter command mode" })
-map("i", "jk", "<ESC>")
 
 -- 常见的 Ctrl mapping
 map("n", "<C-a>", "ggVG", { desc = "Select All" })
@@ -22,20 +31,20 @@ map("i", "<C-/>", "<Esc>gccA", { desc = "Comment line and append" })
 map("n", "<C-/>", "gcc", { desc = "Toggle comment" })
 map("v", "<C-/>", "gc", { desc = "Toggle comment selection" })
 
--- Copilot
-map("i", "<C-]>", "copilot#Suggest()", { expr = true, desc = "Trigger Copilot suggestion" })
+-- Copilot;word
 map("n", "<leader>ct", function()
-    if vim.g.copilot_enabled == 1 then
-        vim.g.copilot_enabled = 0
-        print("Copilot Off")
-    else
-        vim.g.copilot_enabled = 1
+    if vim.g.copilot_enabled == 0 or vim.g.copilot_enabled == false then
+        vim.cmd "Copilot enable"
         print("Copilot On")
+    else
+        vim.cmd "Copilot disable"
+        print("Copilot Off")
     end
 end, { desc = "Toggle Copilot" })
 
--- Toggle light/dark theme
-map('n', '<leader>t', function() require("theme_toggle").toggle() end, { desc = "Toggle light/dark theme" })
+map("i", "<C-]>", "<Plug>(copilot-accept-word)", {
+    desc = "Accept next Copilot word",
+})
 
 -- Auto-save toggle
 local autosave_enabled = true
@@ -76,11 +85,15 @@ map("n", "<leader>r", function()
     if vim.bo.filetype == 'markdown' then
         require('configs.markdown_runner').run_codeblock()
     else
-        vim.cmd('RunCode')
+        -- Dispatch by filetype; ancestor project markers must not override the language.
+        -- Use :RunCode explicitly when running the whole project.
+        vim.cmd('RunFile')
     end
-end, { desc = "Run code / Run markdown codeblock" })
+end, { desc = "Run current file / Run markdown codeblock" })
 
 -- Typst
+map('n', '<leader>tp', '<cmd>TypstPreviewToggle<CR>', { desc = 'Toggle Typst preview' })
+
 local typst_job = nil
 map('n', '<leader>tc', function()
     if typst_job then
@@ -94,37 +107,4 @@ map('n', '<leader>tc', function()
     end
 end, { desc = 'Toggle typst watch' })
 
--- Abbreviations (C++ competitive programming)
-vim.cmd [[
-    inoreabbrev mian main
-    inoreabbrev fori for(int i=1;i<=n;++i){}<left><C-R>
-    inoreabbrev forj for(int j=1;j<=n;++j){}<left><C-R>
-    inoreabbrev cin cin>><C-R>
-    inoreabbrev cout cout<<<C-R>
-    inoreabbrev lb lower_bound()<C-R>
-    inoreabbrev ub upper_bound()<C-R>
-    inoreabbrev be begin()<C-R>
-    inoreabbrev en end()<C-R>
-    inoreabbrev // /*  */<left><left><left><C-R>
-    inoreabbrev #i #include <bits/stdc++.h><enter>using namespace std;<enter><enter>#define ll long long<enter>#define ld long double<enter>#define pii pair<int,int><enter>#define fi(_x) _x.first<enter>#define se(_x) _x.second<enter>const int N=200009;<enter><enter>void input(){<enter><enter>}<enter><enter>void solve(){<enter><enter>}<enter><enter>int main(){<enter>ios::sync_with_stdio(false);<enter>cin.tie(0);<enter>input();<enter>solve();<enter>return 0;<enter>}<C-R>
-    inoreabbrev cr <cmd>CompetiTest run<CR>
-
-    inoreabbrev <+ <=
-    inoreabbrev >+ >=
-    inoreabbrev +. plus.o
-    inoreabbrev x. times.o
-    inoreabbrev ca cal()<left><C-R>
-    inoreabbrev fr frak()<left><C-R>
-    inoreabbrev bo bold()<left><C-R>
-    inoreabbrev sc scr()<left><C-R>
-    inoreabbrev no. node((,),$$),
-    inoreabbrev ed. edge((,),(,),"->"),
-    inoreabbrev oof $oo$-范畴<C-R>
-
-    inoreabbrev #d #definition(title:[])[<enter><enter>]<left><left><tab><left><left><left><left><left><left><C-R>
-    inoreabbrev #t #theorem(title:[])[<enter><enter>]<left><left><tab><left><left><left><left><left><left><C-R>
-    inoreabbrev #c #corollary[<enter><enter>]<left><left><tab><C-R>
-    inoreabbrev #l #lemma[<enter><enter>]<left><left><tab><C-R>
-    inoreabbrev #r #remark[<enter><enter>]<left><left><tab><C-R>
-    inoreabbrev #p #proof[<enter><enter>]<left><left><tab><C-R>
-]]
+require "abbreviations"
